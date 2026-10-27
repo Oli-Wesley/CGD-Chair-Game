@@ -5,11 +5,12 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] float acceleration = 20f;
     [SerializeField] float deceleration = 5f;
-    [SerializeField] float maxSpeed = 8f;
+    [SerializeField] float maxSpeed = 15f;
     [SerializeField] float turnSpeed = 10f;
     [SerializeField] float minFacingSpeed = 0.1f;
     [SerializeField] float driftAnglemin = 30f;
     [SerializeField] float driftAnglemax = 100f;
+    [SerializeField] float driftSpeedMin = 8f;
     [SerializeField] float normalSmoothing = 30f;
     [SerializeField] float maxNormalAngle = 30f;
 
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     Vector3 facingDirection = Vector3.forward;   
     Vector3 inputDirection = Vector3.zero;
     Vector3 movingDirection = Vector3.zero;
+    Vector3 flatVel = Vector3.zero;
 
 
     Vector3 smoothedUp = Vector3.up;
@@ -50,7 +52,7 @@ public class PlayerController : MonoBehaviour
         if (grounded)
         {
             rb.AddForce(inputDirection * acceleration, ForceMode.Acceleration);
-            Vector3 flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
             if (flatVel.magnitude > maxSpeed)
             {
@@ -86,7 +88,9 @@ void Update()
 
 
         float driftAngle = Vector3.Angle(movingDirection, facingDirection);
-        if (driftAngle > driftAnglemin &&  driftAngle < driftAnglemax && grounded)
+        if (driftAngle > driftAnglemin &&  driftAngle < driftAnglemax 
+            && grounded 
+            && flatVel.magnitude >= driftSpeedMin)
         {
             DrifterParticles.Play();
         }
