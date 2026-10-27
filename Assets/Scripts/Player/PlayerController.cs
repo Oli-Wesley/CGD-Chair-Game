@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] float acceleration = 20f;
+    [SerializeField] float deceleration = 5f;
     [SerializeField] float maxSpeed = 8f;
     [SerializeField] float turnSpeed = 10f;
     [SerializeField] float minFacingSpeed = 0.1f;
@@ -55,6 +56,13 @@ public class PlayerController : MonoBehaviour
             {
                 Vector3 capped = flatVel.normalized * maxSpeed;
                 rb.linearVelocity = new Vector3(capped.x, rb.linearVelocity.y, capped.z);
+            }
+
+            if (inputDirection.sqrMagnitude < 0.01f && flatVel.sqrMagnitude > 0f)
+            {
+                float newSpeed = Mathf.MoveTowards(flatVel.magnitude, 0f, deceleration * Time.fixedDeltaTime);
+                Vector3 slowed = flatVel.normalized * newSpeed;
+                rb.linearVelocity = new Vector3(slowed.x, rb.linearVelocity.y, slowed.z);
             }
         }
     }

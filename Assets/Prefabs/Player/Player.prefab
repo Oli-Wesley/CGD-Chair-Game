@@ -5160,7 +5160,7 @@ MonoBehaviour:
   maxSpeed: 15
   turnSpeed: 10
   minFacingSpeed: 0.1
-  driftAnglemin: 40
+  driftAnglemin: 35
   driftAnglemax: 100
   normalSmoothing: 10
   maxNormalAngle: 30
