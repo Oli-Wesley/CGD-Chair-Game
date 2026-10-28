@@ -3373,9 +3373,9 @@ PrefabInstance:
       addedObject: {fileID: 234082531}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 773c3f088334ebd4faf5d2d430a9dcfc, type: 3}
---- !u!1 &808198605 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 762653616118577522, guid: 773c3f088334ebd4faf5d2d430a9dcfc, type: 3}
+--- !u!4 &808198605 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 996333789650181357, guid: 773c3f088334ebd4faf5d2d430a9dcfc, type: 3}
   m_PrefabInstance: {fileID: 808198604}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &808198606 stripped
@@ -7678,10 +7678,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d446c428a38d2b49b4f59b455314ae5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UIScript
-  player: {fileID: 808198605}
-  thisCanvas: {fileID: 1773712794}
-  yOffset: 0
-  xOffset: 0
+  target: {fileID: 808198605}
+  targetRender: {fileID: 0}
+  uiObj: {fileID: 1773712795}
+  offset: {x: 0, y: 0, z: 0}
+  cam: {fileID: 963194227}
 --- !u!114 &1773712792
 MonoBehaviour:
   m_ObjectHideFlags: 0
