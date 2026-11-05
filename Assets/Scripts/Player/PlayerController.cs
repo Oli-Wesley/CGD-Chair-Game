@@ -1,108 +1,226 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+namespace Player
+{
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float acceleration = 20f;
-    [SerializeField] float deceleration = 5f;
-    [SerializeField] float maxSpeed = 15f;
-    [SerializeField] float turnSpeed = 10f;
-    [SerializeField] float minFacingSpeed = 0.1f;
-    [SerializeField] float driftAnglemin = 30f;
-    [SerializeField] float driftAnglemax = 100f;
-    [SerializeField] float driftSpeedMin = 8f;
-    [SerializeField] float normalSmoothing = 30f;
+    [Header("Movement")] // headers for easier navigation
+    [SerializeField] float acceleration = 10f;
+    [SerializeField] float maxSpeed = 20f;
+    [Tooltip("Drag, lower = slidier chair")]
+    [SerializeField] float slideDrag = 0.5f;
+    
+    [Header("Rotation")]
+    [Tooltip("Stick must past this before the chair turns")]
+    [SerializeField] float deadzone = 0.2f; 
+    [SerializeField] float turnSpeed = 6f;
+    
+    [Header("Drifting")] 
+    [SerializeField] float driftAngleMin = 30f;
+    [SerializeField] float driftAngleMax = 100f;
+    [SerializeField] float driftSpeedMin = 5.5f;
+    
+    [Header("Ground check and tilt")]
+    [Tooltip("Max distance to the floor that still counts as grounded")]
+    [SerializeField] private float groundCheckDistance = 1.1f;
     [SerializeField] float maxNormalAngle = 30f;
+    [SerializeField] float normalSmoothing = 30f;
+    
+    [Header("Push")] 
+    [SerializeField] private float pushAmount = 40f;
+    [SerializeField] private float pushCooldown = 1f;
+    [SerializeField] private Color cooldownColor = Color.red;
 
-    GameObject characterModel;
-    Rigidbody rb;
-    InputAction moveAction;
-    ParticleSystem DrifterParticles;
-    Vector3 facingDirection = Vector3.forward;   
-    Vector3 inputDirection = Vector3.zero;
-    Vector3 movingDirection = Vector3.zero;
-    Vector3 flatVel = Vector3.zero;
+    // References set up in Awake()
+    private GameObject _characterModel;
+    private Rigidbody _rb;
+    public InputActionAsset InputActions; // input action asset
+    private InputAction _moveAction;
+    private InputAction _pushAction;
+    private ParticleSystem _driftParticles;
+    private Material _modelMaterial;
+    private Color _normalColor;
+    
+    // State
+    private Vector3 _facingDirection = Vector3.forward; // direction the chair visually faces
+    private Vector3 _targetFacing = Vector3.forward;    // last direction the stick was pushed 
+    private Vector3 _smoothedUp = Vector3.up;           // used to tilt the model
+    private bool _grounded = true;
+    private float _nextPushTime;
+    
+    private Vector3 _movingDirection = Vector3.zero;
+    private Vector3 _flatVel = Vector3.zero;
+
+    private bool PushOnCooldown => Time.time < _nextPushTime;
 
 
-    Vector3 smoothedUp = Vector3.up;
-    bool grounded = true;
-
-    void Start()
+    
+    private void Awake()
     {
-        characterModel = transform.Find("Player Model").gameObject;
+        _rb = GetComponent<Rigidbody>();
+        
+        // iam not sure which one of these two is correct, the first one is used in the Unity tutorial
+        // but the second one makes more sense because you assign it specifically?
+        // update: in this case it doesn't make a difference because we use the Input System that exists by default ("Player" in InputSystem_Actions)
+        // if we wanted to make our own then the second option makes more sense as it needs to be assigned in inspector
+        
+        // Unity Tutorial
+        // _moveAction = InputSystem.actions.FindAction("Move");
+        // _pushAction = InputSystem.actions.FindAction("Push");
+        
+        // assigned, more sense?
+        _moveAction = InputActions.FindAction("Move");
+        _pushAction = InputActions.FindAction("Push");
+    }
 
-        DrifterParticles = characterModel.transform.Find("ParticleEmmiter").gameObject.GetComponent<ParticleSystem>();
-        DrifterParticles.Stop();
+    private void OnEnable() // only enabled when Player is in the game active
+    {
+        InputActions.FindActionMap("Player").Enable();
+    }
 
-        rb = GetComponent<Rigidbody>();
-        moveAction = GetComponent<PlayerInput>().actions["Move"];
+    private void OnDisable()
+    {
+        InputActions.FindActionMap("Player").Disable();
+    }
+
+    private void Start()
+    {
+        _characterModel = transform.Find("Player Model").gameObject;
+
+        _driftParticles = _characterModel.transform.Find("ParticleEmmiter").gameObject.GetComponent<ParticleSystem>();
+        _driftParticles.Stop();
+
+        // MeshRenderer on purpose: GetComponentInChildren<Renderer> could grab the particle renderer.
+        // Use SkinnedMeshRenderer instead if the chair model is rigged.
+        MeshRenderer meshRenderer = _characterModel.GetComponentInChildren<MeshRenderer>();
+        if (meshRenderer != null)
+        {
+            _modelMaterial = meshRenderer.material;
+            _normalColor = _modelMaterial.color;
+        }
+        
     }
 
     // Movement Logic
-    void FixedUpdate()
+    private void FixedUpdate()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>();
-        inputDirection = new Vector3(input.x, 0f, input.y);
-
-        // thanks random online tutorial :D
-        Vector3 flatFacing = Vector3.ProjectOnPlane(movingDirection, Vector3.up).normalized;
-        if (flatFacing.sqrMagnitude > 0.0001f)
-            inputDirection = Quaternion.LookRotation(flatFacing, Vector3.up) * inputDirection;
-
-        if (grounded)
-        {
-            rb.AddForce(inputDirection * acceleration, ForceMode.Acceleration);
-            flatVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-
-            if (flatVel.magnitude > maxSpeed)
-            {
-                Vector3 capped = flatVel.normalized * maxSpeed;
-                rb.linearVelocity = new Vector3(capped.x, rb.linearVelocity.y, capped.z);
-            }
-
-            if (inputDirection.sqrMagnitude < 0.01f && flatVel.sqrMagnitude > 0f)
-            {
-                float newSpeed = Mathf.MoveTowards(flatVel.magnitude, 0f, deceleration * Time.fixedDeltaTime);
-                Vector3 slowed = flatVel.normalized * newSpeed;
-                rb.linearVelocity = new Vector3(slowed.x, rb.linearVelocity.y, slowed.z);
-            }
-        }
-    }
-
-void Update()
-    {
-        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
+        // // thanks random online tutorial :D
+        // Vector3 flatFacing = Vector3.ProjectOnPlane(_movingDirection, Vector3.up).normalized;
+        // if (flatFacing.sqrMagnitude > 0.0001f)
+        //     _moveAmt = Quaternion.LookRotation(flatFacing, Vector3.up) * _moveAmt;
+        
+        if (!_grounded)
             return;
 
+        // keep pushing the chair in the input direction
+        _rb.AddForce(ReadMoveInput() * acceleration, ForceMode.Acceleration);
 
-        grounded = (hit.distance <= 1.1);
+        Vector3 vel = _rb.linearVelocity;
+        _flatVel = new Vector3(vel.x, 0f, vel.z);
 
-        float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-        if (slopeAngle > maxNormalAngle)
-            hit.normal = Vector3.up;
+        // slidey drag on the floor plane only (so gravity/falling is unaffected)
+        _flatVel *= Mathf.Clamp01(1f - slideDrag * Time.fixedDeltaTime);
 
-        smoothedUp = Vector3.Slerp(smoothedUp, hit.normal, normalSmoothing * Time.deltaTime);
+        // speed cap
+        _flatVel = Vector3.ClampMagnitude(_flatVel, maxSpeed);
 
-        movingDirection = Vector3.ProjectOnPlane(rb.linearVelocity, smoothedUp);
-        facingDirection = Vector3.Slerp(facingDirection, inputDirection, turnSpeed * Time.deltaTime);
+        _rb.linearVelocity = new Vector3(_flatVel.x, vel.y, _flatVel.z);
+    }
 
-
-        float driftAngle = Vector3.Angle(movingDirection, facingDirection);
-        if (driftAngle > driftAnglemin &&  driftAngle < driftAnglemax 
-            && grounded 
-            && flatVel.magnitude >= driftSpeedMin)
+    private void Update()
+    {
+        UpdateGroundState();
+        
+        // input check for _pushAction
+        if (_pushAction.WasPressedThisFrame())
         {
-            DrifterParticles.Play();
+            Push();
+        }
+
+        UpdateFacing();
+        UpdateModelRotation();
+        UpdateDriftParticles();
+        UpdatePushTint();
+    }
+
+    private void Push()
+    {
+        if (!_grounded || PushOnCooldown)
+            return;
+
+        _nextPushTime = Time.time + pushCooldown;
+
+        // Shove the way the chair is facing, along the ground.
+        Vector3 pushDirection = Vector3.ProjectOnPlane(_facingDirection, _smoothedUp).normalized;
+        _rb.AddForce(pushDirection * pushAmount, ForceMode.Impulse);
+    }
+
+    private Vector3 ReadMoveInput()
+    {
+        Vector2 input = _moveAction.ReadValue<Vector2>();
+        return new Vector3(input.x, 0f, input.y);
+    }
+    
+    private void UpdateGroundState()
+    {
+        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
+        {
+            _grounded = false;
+            return;
+        }
+
+        _grounded = hit.distance <= groundCheckDistance;
+
+        // Very steep slopes are treated as flat so the model doesn't tilt wildly.
+        Vector3 normal = Vector3.Angle(hit.normal, Vector3.up) > maxNormalAngle ? Vector3.up : hit.normal;
+        _smoothedUp = Vector3.Slerp(_smoothedUp, normal, normalSmoothing * Time.deltaTime);
+    }
+    
+    private void UpdatePushTint()
+    {
+        if (_modelMaterial != null)
+            _modelMaterial.color = PushOnCooldown ? cooldownColor : _normalColor;
+    }
+
+    // Facing & model
+
+    private void UpdateFacing()
+    {
+        // Only turn towards the stick when it's past the deadzone, otherwise keep the last facing.
+        Vector3 input = ReadMoveInput();
+        if (input.sqrMagnitude > deadzone * deadzone)
+            _targetFacing = input.normalized;
+
+        _facingDirection = Vector3.Slerp(_facingDirection, _targetFacing, turnSpeed * Time.deltaTime);
+    }
+
+    private void UpdateModelRotation()
+    {
+        Vector3 forward = Vector3.ProjectOnPlane(_facingDirection, _smoothedUp);
+        if (forward.sqrMagnitude < 0.0001f)
+            forward = Vector3.ProjectOnPlane(_characterModel.transform.forward, _smoothedUp);
+
+        _characterModel.transform.rotation = Quaternion.LookRotation(forward, _smoothedUp);
+    }
+
+    // Drifting
+
+    private void UpdateDriftParticles()
+    {
+        _movingDirection = Vector3.ProjectOnPlane(_rb.linearVelocity, _smoothedUp);
+
+        float driftAngle = Vector3.Angle(_movingDirection, _facingDirection);
+        if (driftAngle > driftAngleMin && driftAngle < driftAngleMax
+                                       && _grounded
+                                       && _flatVel.magnitude >= driftSpeedMin)
+        {
+            _driftParticles.Play();
         }
         else
         {
-            DrifterParticles.Stop();
+            _driftParticles.Stop();
         }
-
-        Vector3 flatFacing = Vector3.ProjectOnPlane(facingDirection, smoothedUp);
-        if (flatFacing.sqrMagnitude < 0.0001f)
-            flatFacing = Vector3.ProjectOnPlane(characterModel.transform.forward, smoothedUp);
-
-        characterModel.transform.rotation = Quaternion.LookRotation(flatFacing, smoothedUp);
     }
+}
 }

@@ -5069,9 +5069,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7419557150761393090}
+  - component: {fileID: 1935838086025932814}
   - component: {fileID: 925723810945449291}
   - component: {fileID: 7301590119912893284}
-  - component: {fileID: 1935838086025932814}
   - component: {fileID: 5945269669176128956}
   m_Layer: 0
   m_Name: Physics body
@@ -5096,6 +5096,33 @@ Transform:
   - {fileID: 571191589511989933}
   m_Father: {fileID: 428222049973762272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1935838086025932814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7290224824264199587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: daf50c61b00a0024eb869ca59462514f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  acceleration: 20
+  maxSpeed: 15
+  slideDrag: 0.5
+  deadzone: 0.2
+  turnSpeed: 10
+  minFacingSpeed: 0.1
+  driftAnglemin: 35
+  driftAnglemax: 100
+  driftSpeedMin: 8
+  normalSmoothing: 10
+  maxNormalAngle: 30
+  pushAmount: 6.5
+  pushCooldown: 1
+  cooldownColor: {r: 1, g: 0, b: 0, a: 1}
+  InputActions: {fileID: 0}
 --- !u!54 &925723810945449291
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5144,26 +5171,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1935838086025932814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290224824264199587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: daf50c61b00a0024eb869ca59462514f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  acceleration: 20
-  maxSpeed: 15
-  turnSpeed: 10
-  minFacingSpeed: 0.1
-  driftAnglemin: 35
-  driftAnglemax: 100
-  normalSmoothing: 10
-  maxNormalAngle: 30
 --- !u!114 &5945269669176128956
 MonoBehaviour:
   m_ObjectHideFlags: 0
