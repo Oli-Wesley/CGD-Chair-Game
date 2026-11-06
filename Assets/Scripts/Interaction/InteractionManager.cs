@@ -1,20 +1,26 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using InteractionTypes;
 
 public class InteractionManager : MonoBehaviour
 {
+    // 'Global' Settings
     [Header("Debug Mode")] 
     [SerializeField] private bool debugMode = true;
 
     [Header("References")] 
     [SerializeField] private Transform playerTransform;
+
+    #region Pickup Settings
+    [Header("Interaction Settings (Pickup)")]
     
-    [Header("Interaction Settings")]
     [Tooltip("The distance around the player interactables are acted upon")]
     [SerializeField] private float interactionRange = 5f;
     
-    [SerializeField] private LayerMask interactionLayer = 6;
+    [Tooltip("The chosen layer for ALL interactables (Drop off points go in another layer)")]
+    [SerializeField] private LayerMask interactionLayer;
     
     [Tooltip("The speed at which the interactables fly towards the player")]
     [SerializeField] private float flySpeed = 10f;
@@ -24,7 +30,25 @@ public class InteractionManager : MonoBehaviour
 
     [Tooltip("The distance from the player that the interactables are added to the inventory")]
     [SerializeField] private float minCollectDistance = 1f;
+    #endregion
+    
+    #region Drop Off Settings
+    [Header("Interaction Settings (Drop Off)")]
+    
+    [Tooltip("The distance from a bin the player must be to drop off. If 0, it's the same as Interaction Range")]
+    [SerializeField] private float dropOffRange = 3f;
+    
+    [Tooltip("The chosen layer for ALL drop off points (Interactables go in another layer)")]
+    [SerializeField] private LayerMask dropOffLayer;
+    #endregion
+    
+    #region Variables
 
+    private Dictionary<Transform, RubbishType> _nearbyTransforms = new Dictionary<Transform, RubbishType>();
+    private Dictionary<GameObject, RubbishType> _playerInventory = new Dictionary<GameObject, RubbishType>();
+    
+    #endregion
+    
     #region Events
 
     /// <summary>
@@ -39,23 +63,21 @@ public class InteractionManager : MonoBehaviour
     
     #endregion
     
-    #region Variables
-
-    private Dictionary<Transform, RubbishType> _nearbyTransforms = new Dictionary<Transform, RubbishType>();
-    private Dictionary<Transform, RubbishType> _playerInventory = new Dictionary<Transform, RubbishType>();
-
-    #endregion
-    
     #region Setup
 
     private void Start()
     {
+        // 'Global'
         if (playerTransform == null)
         {
             Debug.LogError("[InteractionManager] No player transform assigned in inspector!");
         }
         
+        // Pickup
         if (interactionRange <= 0) interactionRange = 5f;
+        
+        // Drop off
+        if (dropOffRange <= 0) dropOffRange = interactionRange;
     }
 
     #endregion
@@ -79,7 +101,7 @@ public class InteractionManager : MonoBehaviour
     public int GetRubbishCountForType(RubbishType rubbishType)
     {
         int count = 0;
-        foreach (KeyValuePair<Transform, RubbishType> pair in _playerInventory)
+        foreach (KeyValuePair<GameObject, RubbishType> pair in _playerInventory)
         {
             if (pair.Value == rubbishType)
             {
@@ -93,7 +115,7 @@ public class InteractionManager : MonoBehaviour
     #endregion
 
     #region Update Logic
-
+    
     private void FixedUpdate()
     {
         GetInteractables();
@@ -104,6 +126,10 @@ public class InteractionManager : MonoBehaviour
         }
     }
 
+    #endregion
+    
+    #region Item Collection Logic
+    
     // Checks the interaction range for interactables and gathers them
     private void GetInteractables()
     {
@@ -157,9 +183,10 @@ public class InteractionManager : MonoBehaviour
                 float sqrDistance = (objXZ - playerTransform.position).sqrMagnitude;
                 if (sqrDistance < (minCollectDistance * minCollectDistance))
                 {
-                    _playerInventory.Add(obj, pair.Value);
+                    _playerInventory.Add(obj.gameObject, pair.Value);
                     OnRubbishCollected?.Invoke(pair.Value);
-                    Destroy(obj.gameObject);
+                    //Destroy(obj.gameObject);
+                    obj.gameObject.SetActive(false);
                     keysToRemove.Add(obj);
                     
                     // Todo: Add some cool particle effects
@@ -179,11 +206,24 @@ public class InteractionManager : MonoBehaviour
     }
     
     #endregion
-
+    
+    #region Item Drop Off Logic
+    
+    
+    #endregion
 
     #region Debug
 
+    /// <summary>
+    /// Sets the InteractionManager debug mode flag
+    /// </summary>
+    /// <param name="debugMode">Should it be in debug mode</param>
     public void SetDebugMode(bool debugMode) => this.debugMode = debugMode;
+    
+    /// <summary>
+    /// Returns the current debug mode flag
+    /// </summary>
+    /// <returns>boolean - Is in debug mode</returns>
     public bool IsDebugMode() => debugMode;
     
     private void OnDrawGizmos()
@@ -191,8 +231,14 @@ public class InteractionManager : MonoBehaviour
         if (!debugMode) return;
         
         Vector3 centre = playerTransform.position;
+        
+        // Pickup Distance
         Gizmos.color = Color.aquamarine;
         Gizmos.DrawWireSphere(centre, interactionRange);
+        
+        // Drop off Distance
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(centre, dropOffRange);
     }
     
     #endregion
