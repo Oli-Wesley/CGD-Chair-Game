@@ -137,14 +137,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
   debugMode: 1
-  playerTransform: {fileID: 7419557150761393090}
-  interactionRange: 5
+  playerTransform: {fileID: 571191589511989933}
+  interactionRange: 6
   interactionLayer:
     serializedVersion: 2
     m_Bits: 64
-  flySpeed: 15
-  arcHeight: 3
+  flySpeed: 20
+  arcHeight: 0.4
   minCollectDistance: 1.5
+  dropOffRange: 3
+  dropOffLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &3808358364862920788
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,7 +162,7 @@ GameObject:
   - component: {fileID: 7513926358513083249}
   m_Layer: 0
   m_Name: Player Model
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5097,7 +5101,7 @@ GameObject:
   - component: {fileID: 5945269669176128956}
   m_Layer: 0
   m_Name: Physics body
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5130,8 +5134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: daf50c61b00a0024eb869ca59462514f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  acceleration: 10
-  maxSpeed: 20
+  acceleration: 15
+  maxSpeed: 30
   slideDrag: 0.5
   deadzone: 0.2
   turnSpeed: 6

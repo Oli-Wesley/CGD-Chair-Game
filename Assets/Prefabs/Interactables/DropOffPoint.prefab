@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7353311792416030672}
   - component: {fileID: 5288941863496308045}
+  - component: {fileID: 6887901831561404006}
   m_Layer: 7
   m_Name: DropOffPoint
   m_TagString: Untagged
@@ -48,6 +49,27 @@ MonoBehaviour:
   acceptedType: 0
   zoneSize: {x: 5, y: 3, z: 10}
   debugCube: {fileID: 6113845276377715670}
+--- !u!65 &6887901831561404006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3192782880762157856}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 3, z: 10}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6113845276377715670
 GameObject:
   m_ObjectHideFlags: 0
@@ -296,7 +318,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 29
+  m_VersionIndex: 38
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
