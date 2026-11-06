@@ -53,8 +53,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 _flatVel = Vector3.zero;
 
     private bool PushOnCooldown => Time.time < _nextPushTime;
-
-
     
     private void Awake()
     {
