@@ -19,6 +19,9 @@ public class InteractionManager : MonoBehaviour
     [Tooltip("The speed at which the interactables fly towards the player")]
     [SerializeField] private float flySpeed = 10f;
 
+    [Tooltip("The height of the arc the rubbish follows")] 
+    [SerializeField] private float arcHeight = 3f;
+
     [Tooltip("The distance from the player that the interactables are added to the inventory")]
     [SerializeField] private float minCollectDistance = 1f;
 
@@ -133,16 +136,25 @@ public class InteractionManager : MonoBehaviour
             Transform obj = pair.Key;
             if (obj != null)
             {
+                Vector3 targetPosition = playerTransform.position;
+                
                 // Move the item towards the player
-                // Todo: Make this follow a curve
-                obj.position = Vector3.MoveTowards(
+                Vector3 nextPos = Vector3.MoveTowards(
                     obj.position, 
-                    playerTransform.position, 
+                    targetPosition,
                     flySpeed * Time.deltaTime
                 );
                 
+                // Curved Arc
+                float currentDistance = Vector3.Distance(obj.position, targetPosition);
+                float progress = 1f - Mathf.Clamp01(currentDistance / interactionRange);
+                float heightOffset = Mathf.Sin(progress * Mathf.PI) * arcHeight;
+                
+                obj.position = new Vector3(nextPos.x, nextPos.y + heightOffset, nextPos.z);
+                
                 // Check if its close enough
-                float sqrDistance = (obj.position - playerTransform.position).sqrMagnitude;
+                Vector3 objXZ = new Vector3(obj.position.x, targetPosition.y, obj.position.z);
+                float sqrDistance = (objXZ - playerTransform.position).sqrMagnitude;
                 if (sqrDistance < (minCollectDistance * minCollectDistance))
                 {
                     _playerInventory.Add(obj, pair.Value);
