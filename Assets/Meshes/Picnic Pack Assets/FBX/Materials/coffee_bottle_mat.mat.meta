@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 55893fd879c129d4083a07fe2b9020d2
+timeCreated: 1454551291
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/coffee_bottle_mat.mat
+  uploadId: 106448
