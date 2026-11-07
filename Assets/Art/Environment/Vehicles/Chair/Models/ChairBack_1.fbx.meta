@@ -13,7 +13,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ChairMaterialGrey
-    second: {fileID: 2100000, guid: 838df9b23f1b0dc4cb88cd42b435fbfb, type: 2}
+    second: {fileID: 2100000, guid: 6f20f6937f1fe654fbfb5d6c461717dd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
