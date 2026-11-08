@@ -177,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1613,6 +1613,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug_Interactable (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
+      propertyPath: rubbishType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2608,7 +2612,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2673,7 +2677,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2784,7 +2788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3192782880762157856, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Name
-      value: DropOffPoint (5)
+      value: DropOffPoint_Glass
       objectReference: {fileID: 0}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -2792,7 +2796,7 @@ PrefabInstance:
       objectReference: {fileID: 1623908734}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_VersionIndex
-      value: 41
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4901768101033945553, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -2800,7 +2804,7 @@ PrefabInstance:
       objectReference: {fileID: 172914193}
     - target: {fileID: 5288941863496308045, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: acceptedType
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5549438214714166521, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -3947,7 +3951,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3192782880762157856, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Name
-      value: DropOffPoint (1)
+      value: DropOffPoint_Plastic
       objectReference: {fileID: 0}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -3955,7 +3959,7 @@ PrefabInstance:
       objectReference: {fileID: 1644039646}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_VersionIndex
-      value: 41
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4901768101033945553, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -3963,7 +3967,7 @@ PrefabInstance:
       objectReference: {fileID: 1410005168}
     - target: {fileID: 5288941863496308045, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: acceptedType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5549438214714166521, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -4154,7 +4158,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4179,7 +4183,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3192782880762157856, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Name
-      value: DropOffPoint (4)
+      value: DropOffPoint_Refuse
       objectReference: {fileID: 0}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -4187,7 +4191,7 @@ PrefabInstance:
       objectReference: {fileID: 815227670}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_VersionIndex
-      value: 41
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4901768101033945553, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4195,7 +4199,7 @@ PrefabInstance:
       objectReference: {fileID: 1441889661}
     - target: {fileID: 5288941863496308045, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: acceptedType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5549438214714166521, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -4788,7 +4792,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5031,7 +5035,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5195,6 +5199,10 @@ PrefabInstance:
     - target: {fileID: 7156300535790242285, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: m_Name
       value: Debug_Interactable (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
+      propertyPath: rubbishType
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5539,7 +5547,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -5936,7 +5944,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6656,7 +6664,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3192782880762157856, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Name
-      value: DropOffPoint (2)
+      value: DropOffPoint_Metal
       objectReference: {fileID: 0}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -6664,7 +6672,7 @@ PrefabInstance:
       objectReference: {fileID: 262009527}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_VersionIndex
-      value: 41
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4901768101033945553, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -6672,7 +6680,7 @@ PrefabInstance:
       objectReference: {fileID: 1606386524}
     - target: {fileID: 5288941863496308045, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: acceptedType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5549438214714166521, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -7706,6 +7714,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug_Interactable (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
+      propertyPath: rubbishType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -8312,7 +8324,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3192782880762157856, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Name
-      value: DropOffPoint (3)
+      value: DropOffPoint_Food
       objectReference: {fileID: 0}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -8320,7 +8332,7 @@ PrefabInstance:
       objectReference: {fileID: 1807817882}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_VersionIndex
-      value: 41
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4901768101033945553, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -8328,7 +8340,7 @@ PrefabInstance:
       objectReference: {fileID: 2051601998}
     - target: {fileID: 5288941863496308045, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: acceptedType
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5549438214714166521, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -8876,7 +8888,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8946,7 +8958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9372,7 +9384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9437,7 +9449,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9644,7 +9656,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11885,7 +11897,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12320,7 +12332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12778,7 +12790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12843,7 +12855,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -12908,7 +12920,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13643,7 +13655,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14304,7 +14316,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15005,7 +15017,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
       propertyPath: rubbishType
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -15250,6 +15262,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Debug_Interactable
       objectReference: {fileID: 0}
+    - target: {fileID: 7586737652283083896, guid: ae32fa5d0dcf044538c39015b3bba409, type: 3}
+      propertyPath: rubbishType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15273,7 +15289,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3192782880762157856, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Name
-      value: DropOffPoint
+      value: DropOffPoint_Cardboard
       objectReference: {fileID: 0}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
@@ -15281,12 +15297,16 @@ PrefabInstance:
       objectReference: {fileID: 1490284342}
     - target: {fileID: 4884156326307792577, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_VersionIndex
-      value: 41
+      value: 44
       objectReference: {fileID: 0}
     - target: {fileID: 4901768101033945553, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 1775079161}
+    - target: {fileID: 5288941863496308045, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
+      propertyPath: acceptedType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5549438214714166521, guid: d24973c06f2704233b8146e33f92f04d, type: 3}
       propertyPath: m_Mesh
       value: 

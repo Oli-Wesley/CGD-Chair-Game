@@ -10,10 +10,7 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8ff0396f-5a97-4205-bee0-25c3ede7fd49" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CGD-Chair-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CGD-Chair-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interaction/InteractionTypes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interaction/InteractionTypes.cs" afterDir="false" />
-    </list>
+    <list default="true" id="8ff0396f-5a97-4205-bee0-25c3ede7fd49" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -135,7 +132,7 @@
       <workItem from="1793977829326" duration="5331000" />
       <workItem from="1793983198756" duration="5816000" />
       <workItem from="1794142334775" duration="518000" />
-      <workItem from="1794143148183" duration="1691000" />
+      <workItem from="1794143148183" duration="1858000" />
     </task>
     <servers />
   </component>
