@@ -98,78 +98,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 428222049973762272}
-  - component: {fileID: 5449724779460738825}
-  m_Layer: 0
-  m_Name: Player
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &428222049973762272
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2754322077723870930}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.35357, y: 1.56, z: 0.35357}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
-  m_Children:
-  - {fileID: 3719096720808044456}
-  - {fileID: 7419557150761393090}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5449724779460738825
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2754322077723870930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 291429b45692f46dfb63304d76d0e50d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
-  debugMode: 1
-  playerTransform: {fileID: 571191589511989933}
-  interactionRange: 6
-  interactionLayer:
-    serializedVersion: 2
-    m_Bits: 64
-  flySpeed: 20
-  arcHeight: 0.4
-  minCollectDistance: 1.5
-  dropOffRange: 3
-  dropOffLayer:
-    serializedVersion: 2
-    m_Bits: 128
---- !u!1 &3808358364862920788
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 571191589511989933}
-  - component: {fileID: 845931898956651439}
-  - component: {fileID: 7513926358513083249}
-  m_Layer: 0
-=======
   - component: {fileID: 1085705360260728098}
   - component: {fileID: 234519680681907232}
   - component: {fileID: 6970060166461156606}
   m_Layer: 6
->>>>>>> Movement
   m_Name: Player Model
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5101,15 +5035,6 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-<<<<<<< HEAD
-  - component: {fileID: 7419557150761393090}
-  - component: {fileID: 1935838086025932814}
-  - component: {fileID: 925723810945449291}
-  - component: {fileID: 7301590119912893284}
-  - component: {fileID: 5945269669176128956}
-  m_Layer: 0
-  m_Name: Physics body
-=======
   - component: {fileID: 7929707648328275021}
   - component: {fileID: 4189354310768717887}
   - component: {fileID: 4034642311794924737}
@@ -5118,7 +5043,6 @@ GameObject:
   - component: {fileID: 7901567177880331499}
   m_Layer: 6
   m_Name: Player
->>>>>>> Movement
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5151,31 +5075,14 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: daf50c61b00a0024eb869ca59462514f, type: 3}
   m_Name: 
-<<<<<<< HEAD
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  acceleration: 15
-  maxSpeed: 30
-=======
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerController
   acceleration: 10
   maxSpeed: 20
->>>>>>> Movement
   slideDrag: 0.5
   deadzone: 0.2
   turnSpeed: 6
   driftAngleMin: 30
   driftAngleMax: 100
-<<<<<<< HEAD
-  driftSpeedMin: 8
-  groundCheckDistance: 1.1
-  maxNormalAngle: 30
-  normalSmoothing: 30
-  pushAmount: 40
-  pushCooldown: 1
-  cooldownColor: {r: 1, g: 0, b: 0, a: 1}
-  InputActions: {fileID: -944628639613478452, guid: 92b52a6390b73ad4eb2fe1c7d840b57d, type: 3}
---- !u!54 &925723810945449291
-=======
   driftSpeedMin: 3
   groundCheckDistance: 1.1
   maxNormalAngle: 30
@@ -5231,7 +5138,6 @@ MonoBehaviour:
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!54 &298539508995961540
->>>>>>> Movement
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5279,210 +5185,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
-<<<<<<< HEAD
---- !u!114 &5945269669176128956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7290224824264199587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInput
-  m_Actions: {fileID: -944628639613478452, guid: 92b52a6390b73ad4eb2fe1c7d840b57d, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: Gamepad
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
---- !u!1 &7634651276314142936
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3719096720808044456}
-  - component: {fileID: 2721831973905446538}
-  - component: {fileID: 3616753815432414119}
-  - component: {fileID: 4806029690965215024}
-  - component: {fileID: 5449724779460738825}
-  m_Layer: 0
-  m_Name: CinemachineCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &3719096720808044456
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634651276314142936}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0.30563763, y: 0, z: 0, w: 0.9521479}
-  m_LocalPosition: {x: 0, y: 3.5, z: -4.89}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 428222049973762272}
-  m_LocalEulerAnglesHint: {x: 0.108, y: -0.001, z: -0.793}
---- !u!114 &2721831973905446538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634651276314142936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
-  Priority:
-    Enabled: 0
-    m_Value: 0
-  OutputChannel: 1
-  StandbyUpdate: 2
-  m_StreamingVersion: 20241001
-  m_LegacyPriority: 0
-  Target:
-    TrackingTarget: {fileID: 571191589511989933}
-    LookAtTarget: {fileID: 0}
-    CustomLookAtTarget: 0
-  Lens:
-    FieldOfView: 80
-    OrthographicSize: 5
-    NearClipPlane: 0.3
-    FarClipPlane: 1000
-    Dutch: 0
-    ModeOverride: 0
-    PhysicalProperties:
-      GateFit: 2
-      SensorSize: {x: 21.946, y: 16.002}
-      LensShift: {x: 0, y: 0}
-      FocusDistance: 10
-      Iso: 200
-      ShutterSpeed: 0.005
-      Aperture: 16
-      BladeCount: 5
-      Curvature: {x: 2, y: 11}
-      BarrelClipping: 0.25
-      Anamorphism: 0
-  BlendHint: 0
---- !u!114 &3616753815432414119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 571191589511989933}
-  - component: {fileID: 845931898956651439}
-  - component: {fileID: 7513926358513083249}
-  m_Layer: 0
-  m_Name: Player Model
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &7290224824264199587
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7419557150761393090}
-  - component: {fileID: 1935838086025932814}
-  - component: {fileID: 925723810945449291}
-  - component: {fileID: 7301590119912893284}
-  - component: {fileID: 5945269669176128956}
-  m_Layer: 0
-  m_Name: Physics body
-  m_TagString: Player
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1935838086025932814
-  m_GameObject: {fileID: 7634651276314142936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b617507da6d07e749b7efdb34e1173e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineFollow
-  TrackerSettings:
-    BindingMode: 1
-    PositionDamping: {x: 1, y: 1, z: 1}
-    AngularDampingMode: 0
-    RotationDamping: {x: 1, y: 1, z: 1}
-    QuaternionDamping: 1
-  FollowOffset: {x: 0, y: 3.5, z: -4.89}
---- !u!114 &4806029690965215024
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7634651276314142936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e8b78ac948f05a46a6d8339a503172b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
-  acceleration: 15
-  maxSpeed: 30
-  slideDrag: 0.5
-  deadzone: 0.2
-  turnSpeed: 6
-  driftAngleMin: 30
-  driftAngleMax: 100
-  driftSpeedMin: 8
-  groundCheckDistance: 1.1
-  maxNormalAngle: 30
-  normalSmoothing: 30
-  pushAmount: 40
-  pushCooldown: 1
-  cooldownColor: {r: 1, g: 0, b: 0, a: 1}
-  InputActions: {fileID: -944628639613478452, guid: 92b52a6390b73ad4eb2fe1c7d840b57d, type: 3}
---- !u!1 &7634651276314142936
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3719096720808044456}
-  - component: {fileID: 2721831973905446538}
-  - component: {fileID: 3616753815432414119}
-  - component: {fileID: 4806029690965215024}
-  m_Layer: 0
-  m_Name: CinemachineCamera
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
