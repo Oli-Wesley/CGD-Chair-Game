@@ -53,8 +53,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 _flatVel = Vector3.zero;
 
     private bool PushOnCooldown => Time.time < _nextPushTime;
-
-
     
     private void Awake()
     {
@@ -70,6 +68,14 @@ public class PlayerController : MonoBehaviour
         // _pushAction = InputSystem.actions.FindAction("Push");
         
         // assigned, more sense?
+        
+        /*
+         * Harry -> We could make a global InputManager which handles all the actions even if they're in different assets,
+         * and then use the references from that in all of our code?
+         *
+         * I think I have an example from a personal project we could modify/use?
+         */
+        
         _moveAction = InputActions.FindAction("Move");
         _pushAction = InputActions.FindAction("Push");
     }
