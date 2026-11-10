@@ -1,5 +1,19 @@
 {
   "dependencies": {
+    "com.deltation.toon-rp": {
+      "version": "https://github.com/Delt06/toon-rp.git?path=Packages/com.deltation.toon-rp",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.render-pipelines.core": "14.0.9",
+        "com.unity.shadergraph": "14.0.9",
+        "com.unity.modules.uielements": "1.0.0",
+        "com.unity.mathematics": "1.2.6",
+        "com.unity.burst": "1.8.9",
+        "com.unity.collections": "2.1.4"
+      },
+      "hash": "687b7b26747a8bd6b0905299e5248bbca0285a77"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 1,

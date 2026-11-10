@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 30902ead064e05c4fbcbbd0803fdce66
+guid: 5fc43774974f81e4081bb35a9bcc269a
 ModelImporter:
   serializedVersion: 24300
   internalIDToNameTable: []
@@ -8,17 +8,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: BlackPlasticTextured
-    second: {fileID: 2100000, guid: 0282314038cc25a4cb9e888728515a61, type: 2}
+    second: {fileID: 2100000, guid: 94d45967774b2c84eb5a444e736023f3, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: ChairMaterialGrey
-    second: {fileID: 2100000, guid: 838df9b23f1b0dc4cb88cd42b435fbfb, type: 2}
+    second: {fileID: 2100000, guid: 868f73aa9d3d1ef458170fbb7a6e0267, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: MetalSiiver
-    second: {fileID: 2100000, guid: e6f46f2b3d7cffc4880bc0201e6dbe17, type: 2}
+    second: {fileID: 2100000, guid: 57788add195cd7c4a8b4fb982a4b72cd, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -87,13 +87,13 @@ ModelImporter:
     useFileScale: 1
     strictVertexDataChecks: 0
   tangentSpace:
-    normalSmoothAngle: 60
-    normalImportMode: 0
-    tangentImportMode: 3
-    normalCalculationMode: 4
+    normalSmoothAngle: 76
+    normalImportMode: 1
+    tangentImportMode: 2
+    normalCalculationMode: 3
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
-    normalSmoothingSource: 0
+    normalSmoothingSource: 2
   referencedClips: []
   importAnimation: 1
   humanDescription:
