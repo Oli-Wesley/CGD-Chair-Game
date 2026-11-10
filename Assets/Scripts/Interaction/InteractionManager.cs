@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,13 +7,6 @@ using InteractionTypes;
 
 public class InteractionManager : MonoBehaviour
 {
-    /*
-     * Todo:
-     * - Make items spawn into drop off one at a time
-     * - Fix the bug where the item is not removed from the _objectsToRemove
-     * - Clean up code
-     */
-    
     // 'Global' Settings
     [Header("Debug Mode")] 
     [SerializeField] private bool debugMode = true;
@@ -50,7 +44,7 @@ public class InteractionManager : MonoBehaviour
 
     private Dictionary<Transform, RubbishType> _nearbyTransforms = new Dictionary<Transform, RubbishType>();
     private Dictionary<GameObject, RubbishType> _playerInventory = new Dictionary<GameObject, RubbishType>();
-    public List<GameObject> _objectsToDropOff = new List<GameObject>(); // Todo: Set private once bugs fixed
+    private List<GameObject> _objectsToDropOff = new List<GameObject>();
     
     private IDropoffPoint _currentDropoffPoint;
     
@@ -142,16 +136,21 @@ public class InteractionManager : MonoBehaviour
     
     private void FixedUpdate()
     {
-        // Pick Up
-        GetInteractables();
-        if (_nearbyTransforms.Count > 0) MoveInteractables();
-        
-        // Drop Off
         if (_currentDropoffPoint != null)
         {
-            GetItemsToDropOff();
+            // Drop Off (Only in drop off)
+
+            if (_objectsToDropOff.Count > 0)
+            {
+                DropOffInventory();
+            }
+        }
+        else
+        {
+            // Pick Up (Only when not in drop off)
+            GetInteractables();
             
-            if (_objectsToDropOff.Count > 0) DropOffInventory();
+            if (_nearbyTransforms.Count > 0) MoveInteractables();
         }
     }
 
@@ -223,15 +222,34 @@ public class InteractionManager : MonoBehaviour
     
     #region Item Drop Off Logic
 
-    private void HandleDropOffEnter(IDropoffPoint dropOffPoint) => _currentDropoffPoint = dropOffPoint;
-    private void HandleDropOffExit(IDropoffPoint dropOffPoint) => _currentDropoffPoint = null;
+    private void HandleDropOffEnter(IDropoffPoint dropOffPoint)
+    {
+        _currentDropoffPoint = dropOffPoint;
+        GetItemsToDropOff();
+    }
+
+    private void HandleDropOffExit(IDropoffPoint dropOffPoint)
+    {
+        if (_currentDropoffPoint == dropOffPoint)
+        {
+            foreach (var obj in _objectsToDropOff)
+            {
+                if (obj != null && obj.activeInHierarchy)
+                {
+                    obj.SetActive(false);
+                }
+            }
+            
+            _objectsToDropOff.Clear();
+        }
+        
+        _currentDropoffPoint = null;
+    }
 
     private void GetItemsToDropOff()
     {
-        if (_currentDropoffPoint == null) return;
-        if (_playerInventory.Count <= 0) return;
-        
         _objectsToDropOff.Clear();
+        if (_currentDropoffPoint == null || _playerInventory.Count <= 0) return;
         
         RubbishType thisType = _currentDropoffPoint.acceptedType;
 
@@ -248,44 +266,51 @@ public class InteractionManager : MonoBehaviour
     {
         if (_objectsToDropOff.Count <= 0) return;
 
-        foreach (var obj in _objectsToDropOff)
+        GameObject obj = _objectsToDropOff[0];
+
+        if (obj != null)
         {
-            // Show Item Again
-            if (obj && !obj.activeInHierarchy)
+            // Make object visible if it isn't
+            if (!obj.activeInHierarchy)
             {
-                Vector3 spawnPos = playerTransform.position + playerTransform.forward * 1.5f;
+                Vector3 spawnPos = playerTransform.position + playerTransform.up * 1.5f;
                 obj.transform.position = spawnPos;
                 obj.SetActive(true);
-                _objectsToDropOff.Remove(obj);
-                
-                Collider collider = obj.GetComponent<Collider>();
-                if (collider != null) collider.enabled = false;
             }
 
+            // Move the objects
+            Vector3 targetPos = _currentDropoffPoint.transform.position;
             MoveItemTowards(obj.transform, _currentDropoffPoint.transform, flySpeed, true);
             
-            // Check if its close enough
-            Vector3 objXZ = new Vector3(
-                obj.transform.position.x, 
-                _currentDropoffPoint.transform.position.y, 
-                obj.transform.position.z
-            );
-            
-            float sqrDistance = (objXZ - playerTransform.position).sqrMagnitude;
+            // Remove once close enough
+            float sqrDistance = (obj.transform.position - targetPos).sqrMagnitude;
             if (sqrDistance < (minCollectDistance * minCollectDistance))
             {
-                _playerInventory.Remove(obj);
-                _objectsToDropOff.Remove(obj);
+                if (_playerInventory.Count != 0)
+                {
+                    _playerInventory.Remove(obj.gameObject);
+                }
+
+                _objectsToDropOff.RemoveAt(0);
                 OnRubbishDroppedOff?.Invoke(_currentDropoffPoint.acceptedType);
-                Destroy(obj);
-                // Todo: Add some cool particle effects
+                Destroy(obj.gameObject);
             }
         }
+        else
+        {
+            _objectsToDropOff.RemoveAt(0);
+        }
     }
-    
-    
     #endregion
 
+    #region Helpers
+    /// <summary>
+    /// Move items from Point A to Point B at the set speed, optionally along an arc
+    /// </summary>
+    /// <param name="itemToMove">Transform of the item that should be moved</param>
+    /// <param name="target">Transform of the target position to move towards</param>
+    /// <param name="speed">Float that is the max speed the item can move at</param>
+    /// <param name="useArc">Boolean for whether to use an arc</param>
     private void MoveItemTowards(Transform itemToMove, Transform target, float speed, bool useArc = false)
     {
         Vector3 nextPos = Vector3.MoveTowards(
@@ -306,13 +331,15 @@ public class InteractionManager : MonoBehaviour
         itemToMove.position = new Vector3(nextPos.x, nextPos.y + heightOffset, nextPos.z);
     }
     
+    #endregion
+    
     #region Debug
 
     /// <summary>
     /// Sets the InteractionManager debug mode flag
     /// </summary>
-    /// <param name="debugMode">Should it be in debug mode</param>
-    public void SetDebugMode(bool debugMode) => this.debugMode = debugMode;
+    /// <param name="state">Should it be in debug mode</param>
+    public void SetDebugMode(bool state) => debugMode = state;
     
     /// <summary>
     /// Returns the current debug mode flag
