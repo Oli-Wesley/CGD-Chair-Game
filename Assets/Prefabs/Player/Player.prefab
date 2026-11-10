@@ -5036,6 +5036,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7929707648328275021}
+  - component: {fileID: 6476799376833506541}
   - component: {fileID: 4189354310768717887}
   - component: {fileID: 4034642311794924737}
   - component: {fileID: 6525037166751315302}
@@ -5064,6 +5065,28 @@ Transform:
   - {fileID: 1085705360260728098}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6476799376833506541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912930263789273644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 291429b45692f46dfb63304d76d0e50d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
+  debugMode: 1
+  playerTransform: {fileID: 1085705360260728098}
+  interactionRange: 6
+  interactionLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  flySpeed: 20
+  arcHeight: 0.2
+  minCollectDistance: 1.5
+  dropOffRange: 3
 --- !u!114 &4189354310768717887
 MonoBehaviour:
   m_ObjectHideFlags: 0
