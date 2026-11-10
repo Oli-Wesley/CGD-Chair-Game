@@ -1,17 +1,19 @@
+using DELTation.ToonRP.Extensions.BuiltIn;
 using UnityEngine;
 
 public class ChairColor : MonoBehaviour
 {
-    [Header("ChairSeat Component")]
+    [Header("Chair Seat Component")]
     [SerializeField] private MeshRenderer chairSeat;
-    [Header("ChairBack Component")]
+    [Header("Chair Back Component")]
     [SerializeField] private MeshRenderer chairBack;
-    [Header("Color for Back")]
-    [SerializeField] private Color targetBackColor = Color.white;
-    [Header("Color for Seat")]
-    [SerializeField] private Color targetSeatColor = Color.white;
 
-    // variable for the equivalent of Unitys UID (GODOT) this uses a UID integer for the _MainColor property (updated for ToonRP)
+    [Header("Target Colour Seat")]
+    [SerializeField] private Color targetSeatColor = Color.white;
+    [Header("Target Colour Back")]
+    [SerializeField] private Color targetBackColor = Color.white;
+
+    // shader  IDs for Toon RP - SWITCH FROM URP
     private static readonly int MainColorProperty = Shader.PropertyToID("_MainColor");
 
     private Material seatMaterialInstance;
@@ -19,7 +21,7 @@ public class ChairColor : MonoBehaviour
 
     private void Awake()
     {
-        // material instances for seat and back to prevent changing original
+        // cache specific instances for the back and seat
         if (chairSeat != null)
         {
             seatMaterialInstance = chairSeat.material;
@@ -30,13 +32,13 @@ public class ChairColor : MonoBehaviour
             backMaterialInstance = chairBack.material;
         }
 
-        // apply the colour when the game starts (for inspector changes)
-        ApplyColor(targetBackColor, targetSeatColor);
+        // apply initial colours when the game starts
+        SetMainColors(targetBackColor, targetSeatColor);
     }
 
     private void OnValidate()
     {
-        // CALLED WHEN INSPECTOR CHANGES - THIS IS FOR EDIT ONLY *CAN BE REMOVED ON BUILD*
+        // CALLED WHEN INSPECTOR CHANGES - EDITOR PREVIEW ONLY
         if (chairSeat != null && chairSeat.sharedMaterial != null)
         {
             chairSeat.sharedMaterial.SetColor(MainColorProperty, targetSeatColor);
@@ -47,29 +49,19 @@ public class ChairColor : MonoBehaviour
         }
     }
 
-    // PUBLIC METHOD TO SET COLOUR
-    public void SetColor(Color newBackColor, Color newSeatColor)
+    // PUBLIC FUNCTION TO CHANGE SEAT AND BACK MAIN TINTS TOGETHER
+    public void SetMainColors(Color newBackColor, Color newSeatColor)
     {
-        if (seatMaterialInstance != null)
-        {
-            seatMaterialInstance.SetColor(MainColorProperty, newSeatColor);
-        }
-        if (backMaterialInstance != null)
-        {
-            backMaterialInstance.SetColor(MainColorProperty, newBackColor);
-        }
-    }
+        targetBackColor = newBackColor;
+        targetSeatColor = newSeatColor;
 
-    // INIT METHOD FOR AWAKE
-    private void ApplyColor(Color newBackColor, Color newSeatColor)
-    {
-        if (seatMaterialInstance != null)
-        {
-            seatMaterialInstance.SetColor(MainColorProperty, newSeatColor);
-        }
         if (backMaterialInstance != null)
         {
-            backMaterialInstance.SetColor(MainColorProperty, newBackColor);
+            backMaterialInstance.SetColor(MainColorProperty, targetBackColor);
+        }
+        if (seatMaterialInstance != null)
+        {
+            seatMaterialInstance.SetColor(MainColorProperty, targetSeatColor);
         }
     }
 }
