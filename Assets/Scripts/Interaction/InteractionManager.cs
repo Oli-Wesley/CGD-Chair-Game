@@ -23,7 +23,7 @@ namespace Interaction
     
         [Tooltip("The distance around the player interactables are acted upon")]
         [SerializeField] private float interactionRange = 5f;
-    
+
         [Tooltip("The chosen layer for ALL interactables (Drop off points go in another layer)")]
         [SerializeField] private LayerMask interactionLayer;
     
@@ -80,9 +80,10 @@ namespace Interaction
         #endregion
     
         #region Setup
-
+        
         private void Start()
         {
+            
             // 'Global'
             if (playerTransform == null)
             {

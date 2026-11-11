@@ -12,9 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="8ff0396f-5a97-4205-bee0-25c3ede7fd49" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CGD-Chair-Game/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CGD-Chair-Game/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interaction/IInteractable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interaction/IInteractable.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interaction/IInteractableSpawner.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interaction/IInteractableSpawner.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Interaction/InteractionManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Interaction/InteractionManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,7 +142,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1793903233380</updated>
-      <workItem from="1794414668208" duration="6426000" />
+      <workItem from="1794414668208" duration="8645000" />
     </task>
     <servers />
   </component>
