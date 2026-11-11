@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7a3a58f6f3a22f54592627865a788dda
+timeCreated: 1457276499
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/banana_mat.mat
+  uploadId: 106448

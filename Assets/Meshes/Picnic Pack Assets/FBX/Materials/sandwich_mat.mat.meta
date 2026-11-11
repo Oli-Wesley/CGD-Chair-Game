@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 3ea24ccd3b5764d4b8e411c5a4d2c7df
+timeCreated: 1454551397
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/sandwich_mat.mat
+  uploadId: 106448

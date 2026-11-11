@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a46b5ad727b72d04482954bb8d23c790
+timeCreated: 1457277814
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/sidewalk_2_mat.mat
+  uploadId: 106448
