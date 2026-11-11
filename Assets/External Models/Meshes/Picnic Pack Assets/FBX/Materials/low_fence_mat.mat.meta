@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 77808ab7f21ca404196b1e54b0cc3ac6
+timeCreated: 1457279020
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/low_fence_mat.mat
+  uploadId: 106448

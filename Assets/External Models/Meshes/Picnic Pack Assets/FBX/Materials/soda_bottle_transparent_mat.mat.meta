@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a2ce6bdd8ac5aa843a25c707632aa83f
+timeCreated: 1454551291
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/soda_bottle_transparent_mat.mat
+  uploadId: 106448

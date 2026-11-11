@@ -12,7 +12,16 @@ namespace InteractionTypes
         METAL,
         FOOD,
         REFUSE
-    } 
+    }
+
+    public enum InteractableState
+    {
+        IDLE,
+        PICKING_UP,
+        IN_INVENTORY,
+        DROPPING_OFF,
+        NONE // Shouldn't be used, here for now just in case
+    }
     
     public static class RubbishHelper
     {

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5fc6877c88653ec448cd12b0dc4345c0
+timeCreated: 1457276343
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/soccer_ball_mat.mat
+  uploadId: 106448
