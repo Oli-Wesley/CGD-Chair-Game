@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c85f012d099b73e488b22e97d1ab4351
+timeCreated: 1454550521
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/candy_mat.mat
+  uploadId: 106448
