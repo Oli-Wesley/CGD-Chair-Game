@@ -5079,7 +5079,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InteractionManager
   debugMode: 1
   playerTransform: {fileID: 1085705360260728098}
-  interactionRange: 6
+  interactionRange: 3
   interactionLayer:
     serializedVersion: 2
     m_Bits: 256

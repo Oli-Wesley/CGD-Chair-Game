@@ -7,6 +7,7 @@ namespace Interaction
     public class IInteractable : MonoBehaviour
     {
         public RubbishType rubbishType;
+        public InteractableState interactableState = InteractableState.IDLE;
     
         // This is done the way it is below for alpha. Once we have a model, the code below can essentially be removed
         private void Awake() => UpdateRubbishColour();

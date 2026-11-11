@@ -188,7 +188,11 @@ namespace Interaction
             {
                 if (collider.TryGetComponent<IInteractable>(out IInteractable interactable))
                 {
+                    // Ignore items that are being dealt with
+                    if (interactable.interactableState != InteractableState.IDLE) return;
+                    
                     Transform objTransform = collider.transform;
+                    interactable.interactableState = InteractableState.PICKING_UP;
                 
                     if (!_nearbyTransforms.ContainsKey(objTransform))
                     {
@@ -209,6 +213,7 @@ namespace Interaction
             foreach (KeyValuePair<Transform, RubbishType> pair in _nearbyTransforms)
             {
                 Transform obj = pair.Key;
+                
                 if (obj != null)
                 {
                     MoveItemTowards(obj, playerTransform, flySpeed, true);
@@ -219,6 +224,10 @@ namespace Interaction
                     if (sqrDistance < (minCollectDistance * minCollectDistance))
                     {
                         _playerInventory.Add(obj.gameObject, pair.Value);
+
+                        if (obj.TryGetComponent<IInteractable>(out IInteractable interactable)) 
+                            interactable.interactableState = InteractableState.IN_INVENTORY;
+                        
                         OnRubbishCollected?.Invoke(pair.Value);
                         obj.gameObject.SetActive(false);
                         keysToRemove.Add(obj);
@@ -282,6 +291,9 @@ namespace Interaction
             {
                 if (pair.Value == thisType)
                 {
+                    if (pair.Key.TryGetComponent<IInteractable>(out IInteractable interactable)) 
+                        interactable.interactableState = InteractableState.DROPPING_OFF;
+                    
                     _objectsToDropOff.Add(pair.Key);
                 }
             }
