@@ -54,6 +54,8 @@ namespace Interaction
         private List<GameObject> _objectsToDropOff = new List<GameObject>();
     
         private IDropoffPoint _currentDropoffPoint;
+        private int _rubbishPickedUp = 0;
+        private int _rubbishDroppedOff = 0;
         private int _playerID = -1;
         
         #endregion
@@ -124,7 +126,7 @@ namespace Interaction
         #region Public Getters
 
         /// <summary>
-        /// Returns the count of all rubish in the players inventory
+        /// Returns the count of all rubish currently in the players inventory
         /// </summary>
         /// <returns>int</returns>
         public int GetRubbishCount()
@@ -133,7 +135,7 @@ namespace Interaction
         }
 
         /// <summary>
-        /// Returns the amount of rubbish in the players inventory for the selected type
+        /// Returns the amount of rubbish currently in the players inventory for the selected type
         /// </summary>
         /// <param name="rubbishType">The type to return the count of</param>
         /// <returns>int</returns>
@@ -150,7 +152,27 @@ namespace Interaction
         
             return count;
         }
-    
+
+
+        // Note: If this is needed per RubbishType let me know and I can add it - Harry
+        /// <summary>
+        /// Returns the total amount of rubbish that this player picked up, in this game
+        /// This is different to GetRubbishCount 
+        /// </summary>
+        /// <returns>int</returns>
+        public int GetTotalRubbishPickedUp()
+        {
+            return _rubbishPickedUp;
+        }
+        
+        /// <summary>
+        /// Returns the total number of rubbish that this player dropped off, in this game
+        /// </summary>
+        /// <returns>int</returns>
+        public int GetTotalRubbishDroppedOff()
+        {
+            return _rubbishDroppedOff;
+        }
         #endregion
 
         #region Update Logic
@@ -229,6 +251,7 @@ namespace Interaction
                             interactable.interactableState = InteractableState.IN_INVENTORY;
                         
                         OnRubbishCollected?.Invoke(pair.Value);
+                        _rubbishPickedUp++;
                         obj.gameObject.SetActive(false);
                         keysToRemove.Add(obj);
                     
@@ -331,6 +354,7 @@ namespace Interaction
                     _objectsToDropOff.RemoveAt(0);
                     OnRubbishDroppedOff?.Invoke(_currentDropoffPoint.acceptedType);
                     Destroy(obj.gameObject);
+                    _rubbishDroppedOff++;
                 }
             }
             else
