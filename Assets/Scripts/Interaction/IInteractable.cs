@@ -13,7 +13,7 @@ namespace Interaction
         private void Awake() => UpdateRubbishColour();
         private void OnValidate() => UpdateRubbishColour();
 
-        private void UpdateRubbishColour()
+        public void UpdateRubbishColour()
         {
             Renderer renderer = gameObject.GetComponent<Renderer>();
             Color colour = RubbishHelper.GetColourForRubbishType(rubbishType);
