@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b1253a5bf5ece43469534876fd48e5ef
+timeCreated: 1454551603
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/trash_can_mat.mat
+  uploadId: 106448

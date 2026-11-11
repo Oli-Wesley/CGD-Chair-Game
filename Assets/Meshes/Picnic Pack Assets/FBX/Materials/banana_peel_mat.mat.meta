@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 7d95bb9a05c445c4e9bfbeda959aa78a
+timeCreated: 1454550700
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/banana_peel_mat.mat
+  uploadId: 106448

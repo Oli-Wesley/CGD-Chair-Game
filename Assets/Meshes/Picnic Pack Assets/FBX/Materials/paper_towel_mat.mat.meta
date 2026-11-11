@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: da9ed3d40b8dd8d40b8ac99d8dc03ea5
+timeCreated: 1457276344
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/paper_towel_mat.mat
+  uploadId: 106448

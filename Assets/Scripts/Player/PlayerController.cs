@@ -19,13 +19,14 @@ public class PlayerController : MonoBehaviour
     [Header("Drifting")] 
     [SerializeField] float driftAngleMin = 30f;
     [SerializeField] float driftAngleMax = 100f;
-    [SerializeField] float driftSpeedMin = 5.5f;
+    [SerializeField] float driftSpeedMin = 3f;
     
     [Header("Ground check and tilt")]
     [Tooltip("Max distance to the floor that still counts as grounded")]
     [SerializeField] private float groundCheckDistance = 1.1f;
     [SerializeField] float maxNormalAngle = 30f;
     [SerializeField] float normalSmoothing = 30f;
+    [SerializeField] LayerMask groundMask;
     
     [Header("Push")] 
     [SerializeField] private float pushAmount = 40f;
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
     // References set up in Awake()
     private GameObject _characterModel;
     private Rigidbody _rb;
-    public InputActionAsset InputActions; // input action asset
+    private PlayerInput _playerInput;
     private InputAction _moveAction;
     private InputAction _pushAction;
     private ParticleSystem _driftParticles;
@@ -53,41 +54,13 @@ public class PlayerController : MonoBehaviour
     private Vector3 _flatVel = Vector3.zero;
 
     private bool PushOnCooldown => Time.time < _nextPushTime;
+
+
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
-        
-        // iam not sure which one of these two is correct, the first one is used in the Unity tutorial
-        // but the second one makes more sense because you assign it specifically?
-        // update: in this case it doesn't make a difference because we use the Input System that exists by default ("Player" in InputSystem_Actions)
-        // if we wanted to make our own then the second option makes more sense as it needs to be assigned in inspector
-        
-        // Unity Tutorial
-        // _moveAction = InputSystem.actions.FindAction("Move");
-        // _pushAction = InputSystem.actions.FindAction("Push");
-        
-        // assigned, more sense?
-        
-        /*
-         * Harry -> We could make a global InputManager which handles all the actions even if they're in different assets,
-         * and then use the references from that in all of our code?
-         *
-         * I think I have an example from a personal project we could modify/use?
-         */
-        
-        _moveAction = InputActions.FindAction("Move");
-        _pushAction = InputActions.FindAction("Push");
-    }
-
-    private void OnEnable() // only enabled when Player is in the game active
-    {
-        InputActions.FindActionMap("Player").Enable();
-    }
-
-    private void OnDisable()
-    {
-        InputActions.FindActionMap("Player").Disable();
+        _playerInput = GetComponent<PlayerInput>(); 
     }
 
     private void Start()
@@ -96,6 +69,9 @@ public class PlayerController : MonoBehaviour
 
         _driftParticles = _characterModel.transform.Find("ParticleEmmiter").gameObject.GetComponent<ParticleSystem>();
         _driftParticles.Stop();
+        
+        _moveAction = _playerInput.actions["Move"];
+        _pushAction = _playerInput.actions["Push"];
 
         // MeshRenderer on purpose: GetComponentInChildren<Renderer> could grab the particle renderer.
         // Use SkinnedMeshRenderer instead if the chair model is rigged.
@@ -145,7 +121,6 @@ public class PlayerController : MonoBehaviour
         }
 
         UpdateFacing();
-        UpdateModelRotation();
         UpdateDriftParticles();
         UpdatePushTint();
     }
@@ -170,11 +145,8 @@ public class PlayerController : MonoBehaviour
     
     private void UpdateGroundState()
     {
-        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit))
-        {
-            _grounded = false;
-            return;
-        }
+        if (!Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 
+                groundCheckDistance * 2f, groundMask, QueryTriggerInteraction.Ignore))
 
         _grounded = hit.distance <= groundCheckDistance;
 
@@ -199,19 +171,14 @@ public class PlayerController : MonoBehaviour
             _targetFacing = input.normalized;
 
         _facingDirection = Vector3.Slerp(_facingDirection, _targetFacing, turnSpeed * Time.deltaTime);
-    }
-
-    private void UpdateModelRotation()
-    {
+        
         Vector3 forward = Vector3.ProjectOnPlane(_facingDirection, _smoothedUp);
         if (forward.sqrMagnitude < 0.0001f)
             forward = Vector3.ProjectOnPlane(_characterModel.transform.forward, _smoothedUp);
 
         _characterModel.transform.rotation = Quaternion.LookRotation(forward, _smoothedUp);
     }
-
     // Drifting
-
     private void UpdateDriftParticles()
     {
         _movingDirection = Vector3.ProjectOnPlane(_rb.linearVelocity, _smoothedUp);

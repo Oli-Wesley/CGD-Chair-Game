@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 01d3839f173c24643b43a51751a8d446
+timeCreated: 1457276343
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/trash_bag_mat.mat
+  uploadId: 106448

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d3bb18f8516ee91409aabbf5393be46e
+timeCreated: 1454551449
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/can_mat.mat
+  uploadId: 106448

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 14b044e2fb811924288c08d429d8253c
+timeCreated: 1457275443
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/butter_and_knife_mat.mat
+  uploadId: 106448
