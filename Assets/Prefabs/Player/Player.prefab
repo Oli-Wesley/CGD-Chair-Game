@@ -5042,6 +5042,7 @@ GameObject:
   - component: {fileID: 6525037166751315302}
   - component: {fileID: 298539508995961540}
   - component: {fileID: 7901567177880331499}
+  - component: {fileID: 1386320276847780536}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -5208,3 +5209,19 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1386320276847780536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912930263789273644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229e2461528dff3409ff89e2ec69fc03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerScreenClamper
+  maxBoxWidth: 40
+  maxBoxLength: 40
+  scaleWithCameraZoom: 1
+  baseOrthographicSize: 10
