@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7768102804065735417}
   - component: {fileID: 2504301460385428253}
   - component: {fileID: 7586737652283083896}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Debug_Interactable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -154,3 +154,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IInteractable
   rubbishType: 0
+  interactableState: 0
