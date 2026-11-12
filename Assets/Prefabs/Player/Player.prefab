@@ -5221,7 +5221,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 229e2461528dff3409ff89e2ec69fc03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerScreenClamper
-  maxBoxWidth: 40
-  maxBoxLength: 40
-  scaleWithCameraZoom: 1
-  baseOrthographicSize: 10
+  maxPlayfieldWidth: 55
+  maxPlayfieldLength: 45
