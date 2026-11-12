@@ -16,7 +16,7 @@ namespace Interaction
 
         [Header("References")] 
         [SerializeField] private Transform playerTransform;
-
+        
         #region Pickup Settings
         
         [Header("Interaction Settings (Pickup)")]
@@ -37,7 +37,15 @@ namespace Interaction
         [SerializeField] private float minCollectDistance = 1f;
         
         #endregion
-    
+
+        #region Inventory Settings
+
+        [Header("Inventory Settings")]
+        [Tooltip("The max number of rubbish a player can carry (-1 = Infinite)")] 
+        [SerializeField] private int maxRubbishCount = -1;
+
+        #endregion
+        
         #region Drop Off Settings
     
         [Header("Interaction Settings (Drop Off)")]
@@ -49,14 +57,17 @@ namespace Interaction
     
         #region Variables
 
+        private int _playerID = -1;
+        
         private Dictionary<Transform, RubbishType> _nearbyTransforms = new Dictionary<Transform, RubbishType>();
         private Dictionary<GameObject, RubbishType> _playerInventory = new Dictionary<GameObject, RubbishType>();
         private List<GameObject> _objectsToDropOff = new List<GameObject>();
     
         private IDropoffPoint _currentDropoffPoint;
+        
         private int _rubbishPickedUp = 0;
         private int _rubbishDroppedOff = 0;
-        private int _playerID = -1;
+        private bool _isFull = false;
         
         #endregion
     
@@ -64,19 +75,28 @@ namespace Interaction
 
         /// <summary>
         /// Event called every time rubbish is added to the player inventory
+        /// Carries: RubbishType and Player ID
         /// </summary>
-        public static event Action<RubbishType> OnRubbishCollected;
+        public static event Action<RubbishType, int> OnRubbishCollected;
     
         /// <summary>
         /// Event called every time the player detects new rubbish
+        /// Carries: RubbishType and Player ID
         /// </summary>
-        public static event Action<RubbishType> OnRubbishDetected;
+        public static event Action<RubbishType, int> OnRubbishDetected;
     
         /// <summary>
         /// Event called every time the player drops off rubbish
+        /// Carries: RubbishType and Player ID
         /// </summary>
-        public static event Action<RubbishType> OnRubbishDroppedOff;
-    
+        public static event Action<RubbishType, int> OnRubbishDroppedOff;
+        
+        /// <summary>
+        /// Event called when the players inventory fills up
+        /// Carries: Player ID
+        /// </summary>
+        public static event Action<int> OnInventoryFull;
+        
         #endregion
     
         #region Setup
@@ -174,16 +194,24 @@ namespace Interaction
         {
             return _rubbishDroppedOff;
         }
+        
+        /// <summary>
+        /// Returns the inventory size for the player. -1 = Inifite
+        /// </summary>
+        public int GetMaxRubbishCount() => maxRubbishCount;
         #endregion
 
         #region Update Logic
         
         private void FixedUpdate()
         {
+            // Handle Inventory Fullness
+            if (maxRubbishCount != -1) _isFull = _playerInventory.Count >= maxRubbishCount;
+            else _isFull = false;
+            
             if (_currentDropoffPoint != null)
             {
                 // Drop Off (Only in drop off)
-
                 if (_objectsToDropOff.Count > 0)
                 {
                     DropOffInventory();
@@ -192,7 +220,8 @@ namespace Interaction
             else
             {
                 // Pick Up (Only when not in drop off)
-                GetInteractables();
+                if (!_isFull)
+                    GetInteractables();
             
                 if (_nearbyTransforms.Count > 0) MoveInteractables();
             }
@@ -212,7 +241,7 @@ namespace Interaction
                 if (collider.TryGetComponent<IInteractable>(out IInteractable interactable))
                 {
                     // Ignore items that are being dealt with
-                    if (interactable.interactableState != InteractableState.IDLE) return;
+                    if (interactable.interactableState != InteractableState.IDLE) continue;
                     
                     Transform objTransform = collider.transform;
                     interactable.interactableState = InteractableState.PICKING_UP;
@@ -220,7 +249,7 @@ namespace Interaction
                     if (!_nearbyTransforms.ContainsKey(objTransform))
                     {
                         _nearbyTransforms.Add(objTransform, interactable.rubbishType);
-                        OnRubbishDetected?.Invoke(interactable.rubbishType);
+                        OnRubbishDetected?.Invoke(interactable.rubbishType, _playerID);
                     }
                 }
             }
@@ -239,19 +268,36 @@ namespace Interaction
                 
                 if (obj != null)
                 {
+                    if (_isFull)
+                    {
+                        if (obj.TryGetComponent<IInteractable>(out IInteractable interactable))
+                            interactable.interactableState = InteractableState.IDLE;
+                        keysToRemove.Add(obj);
+                        continue;
+                    }
+                    
                     MoveItemTowards(obj, playerTransform, flySpeed, true);
                 
                     // Check if its close enough
                     Vector3 objXZ = new Vector3(obj.position.x, playerTransform.position.y, obj.position.z);
                     float sqrDistance = (objXZ - playerTransform.position).sqrMagnitude;
+                    
                     if (sqrDistance < (minCollectDistance * minCollectDistance))
                     {
+                        if (maxRubbishCount != -1 && (_playerInventory.Count >= maxRubbishCount))
+                        {
+                            _isFull = true;
+                            OnInventoryFull?.Invoke(_playerID);
+                            _nearbyTransforms.Clear();
+                            break;
+                        }
+                        
                         _playerInventory.Add(obj.gameObject, pair.Value);
 
                         if (obj.TryGetComponent<IInteractable>(out IInteractable interactable)) 
                             interactable.interactableState = InteractableState.IN_INVENTORY;
                         
-                        OnRubbishCollected?.Invoke(pair.Value);
+                        OnRubbishCollected?.Invoke(pair.Value, _playerID);
                         _rubbishPickedUp++;
                         obj.gameObject.SetActive(false);
                         keysToRemove.Add(obj);
@@ -353,7 +399,7 @@ namespace Interaction
                     }
 
                     _objectsToDropOff.RemoveAt(0);
-                    OnRubbishDroppedOff?.Invoke(_currentDropoffPoint.acceptedType);
+                    OnRubbishDroppedOff?.Invoke(_currentDropoffPoint.acceptedType, _playerID);
                     Destroy(obj.gameObject);
                     _rubbishDroppedOff++;
                 }
@@ -391,8 +437,17 @@ namespace Interaction
             }
         
             itemToMove.position = new Vector3(nextPos.x, nextPos.y + heightOffset, nextPos.z);
+            
+            /*
+             * I want to add some code to make items shrink when they fly towards the player,
+             * and grow when they leave the player.
+             *
+             * I'm going to leave that until after alpha tho, as it is definitely a nice to
+             * have not a need to have
+             */
+            
         }
-    
+        
         #endregion
     
         #region Debug
