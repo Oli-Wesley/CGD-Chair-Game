@@ -5087,6 +5087,7 @@ MonoBehaviour:
   flySpeed: 20
   arcHeight: 0.2
   minCollectDistance: 1.5
+  maxRubbishCount: -1
   dropOffRange: 3
 --- !u!114 &4189354310768717887
 MonoBehaviour:

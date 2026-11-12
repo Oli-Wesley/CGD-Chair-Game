@@ -108,12 +108,8 @@ InitTestScene*.unity*
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
 
-./idea
-/.idea
-.idea/
-.idea
 
+.idea
 .ai
-/.ai
-.ai/
-./ai
+.DS_Store
+Thumbs.db
