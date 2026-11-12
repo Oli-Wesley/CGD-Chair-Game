@@ -6,8 +6,8 @@ namespace Player
     public class PlayerScreenClamper : MonoBehaviour
     {
         [Header("BOUNDARY SETTINGS")]
-        [SerializeField] private float boxWidth = 40f;
-        [SerializeField] private float boxLength = 40f;
+        [SerializeField] private float boxWidth = 55f;
+        [SerializeField] private float boxLength = 35f;
 
         // variables to store rigid body and target group (for cinemachine)
         private CinemachineTargetGroup _targetGroup;
