@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 411a71c92d7d9a347a10cdb446951bea
+timeCreated: 1457277351
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/pudding_mat.mat
+  uploadId: 106448
