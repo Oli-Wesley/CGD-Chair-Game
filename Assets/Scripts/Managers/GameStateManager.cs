@@ -3,6 +3,7 @@ using UnityEngine;
 
 public enum GameState
 {
+    None,
     MainMenu,
     PlayerSelect,
     Playing,
@@ -43,10 +44,12 @@ public class GameStateManager : MonoBehaviour
 
     private void Start()
     {
+        // FORCE THE INITIAL STATE ON START
+        currentState = GameState.None;
         changeState(GameState.MainMenu);
     }
 
-    // SMOOTH TRANSITION BETWEEN SCENES - RUN AS COROUTINE DELAY SET IN VARIABLE
+    // TRANSITION BETWEEN SCENES - RUN AS COROUTINE DELAY SET IN VARIABLE
     private IEnumerator _transitionToState(GameState newState)
     {
         if (newState != GameState.MainMenu)
@@ -63,7 +66,10 @@ public class GameStateManager : MonoBehaviour
 
     private void _handleStateChange()
     {
+        // HIDE ALL MENUS BEFORE ACTIVATING THE CURRENT ONE
         _hideAllMenus();
+
+        Debug.Log($"GameState Changed To: {currentState}");
         switch (currentState)
         {
             case GameState.MainMenu:
@@ -131,6 +137,8 @@ public class GameStateManager : MonoBehaviour
         _targetState = newState;
         _currentTransition = StartCoroutine(_transitionToState(newState));
     }
+
+    // MENU SPECIFIC FOR INSPECTOR
 
     public void changeToMainMenu()
     {
