@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GameState
 {
@@ -13,7 +14,7 @@ public enum GameState
 
 public class GameStateManager : MonoBehaviour
 {
-    public static GameStateManager Instance;
+    public static GameStateManager instance;
 
     public GameObject MainMenuUi;
     public GameObject PlayerSelectUi;
@@ -31,9 +32,9 @@ public class GameStateManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
+        if (instance == null)
         {
-            Instance = this;
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -57,6 +58,18 @@ public class GameStateManager : MonoBehaviour
             yield return new WaitForSecondsRealtime(delay);
         }
 
+        // NEED TO WORK THIS OUT - ADATIVE SCENES....
+        // DELAYED SCENE TRANSITION MOVED FROM BELOW
+        //switch (newState)
+        //{
+        //    case GameState.Playing:
+        //        SceneManager.LoadScene("SampleScene");
+        //        break;
+        //    case GameState.MainMenu:
+        //        SceneManager.LoadScene("SampleScene2");
+        //        break;
+        //}
+
         currentState = newState;
         _handleStateChange();
 
@@ -76,6 +89,7 @@ public class GameStateManager : MonoBehaviour
                 Time.timeScale = 0;
                 _safeToSetActive(MainMenuUi, true);
                 // SWITCH MUSIC HERE?
+                //SceneManager.LoadScene("MainMenuScene");
                 break;
             case GameState.PlayerSelect:
                 Time.timeScale = 0;
