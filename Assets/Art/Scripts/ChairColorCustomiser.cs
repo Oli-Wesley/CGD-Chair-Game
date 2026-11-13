@@ -1,4 +1,5 @@
 using DELTation.ToonRP.Extensions.BuiltIn;
+using Player;
 using UnityEngine;
 
 public class ChairColor : MonoBehaviour
@@ -30,6 +31,14 @@ public class ChairColor : MonoBehaviour
         if (chairBack != null)
         {
             backMaterialInstance = chairBack.material;
+        }
+
+        // PULL COLOR FROM PARENT PLAYER MANAGER IF IT EXISTS
+        PlayerManager playerManager = GetComponentInParent<PlayerManager>();
+        if (playerManager != null)
+        {
+            targetSeatColor = playerManager.playerColor;
+            targetBackColor = playerManager.playerColor;
         }
 
         // apply initial colours when the game starts
