@@ -14,7 +14,7 @@ namespace Interaction
         // 'Global' Settings
         [Header("Debug Mode")] 
         [SerializeField] private bool debugMode = true;
-
+        
         [Header("References")] 
         [SerializeField] private Transform playerTransform;
         
@@ -214,6 +214,11 @@ namespace Interaction
         /// Returns the amount of rubbish this player has stolen FROM others
         /// </summary>
         public int GetRubbishStolenFromOthers() => _rubbishStolenFromOthers;
+        
+        /// <summary>
+        /// Returns the PlayerID of this InteractionManager
+        /// </summary>
+        public int GetPlayerID() => _playerID;
         
         // Setters
         /// <summary>

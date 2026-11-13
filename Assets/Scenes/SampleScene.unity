@@ -2084,7 +2084,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 1147490539745277766, guid: 8fd330fc85e7bf649a96b1653ae72912, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -3780,7 +3781,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Cinemachine::Unity.Cinemachine.CinemachineCamera
   Priority:
     Enabled: 0
-    m_Value: 0
+    m_Value: 10
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -6547,7 +6548,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b987795cfff975a46a44e2143ed8e2c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameModeManager
-  winConditionsList: []
+  winConditionsList:
+  - {fileID: 11400000, guid: 86d9113a9caba4b42b774b41c3df53e4, type: 2}
   gameStateManager: {fileID: 705205082}
   timerText: {fileID: 0}
 --- !u!4 &997462384
@@ -11904,7 +11906,16 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 7365801543686817966, guid: e8e851ea9652eec48841f2853c17800c, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 1974044680}
+    - target: {fileID: 7365801543686817966, guid: e8e851ea9652eec48841f2853c17800c, type: 3}
+      propertyPath: m_RenderMode
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 7568481406268389767, guid: e8e851ea9652eec48841f2853c17800c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
