@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using InteractionTypes;
 using Player;
 
@@ -224,7 +223,7 @@ namespace Interaction
         /// <summary>
         /// Removes the selected amount of rubbish from the players inventory manually.
         /// Can optionally pass a rubbishType in to only remove a certain type of rubbish.
-        /// None will ignore this and just remove the count. I
+        /// None will ignore this and just remove the count
         /// If destroyItems is true it returns an empty array, if its false it returns the rubbish that was removed
         /// </summary>
         /// <param name="count">The amount of rubbish to remove</param>
@@ -308,6 +307,10 @@ namespace Interaction
                     rubbishType = interactable.rubbishType;
                     interactable.interactableState = InteractableState.IN_INVENTORY;
                 }
+
+                // Randomly Assign a rubbish type if NONE specified
+                if (rubbishType == RubbishType.NONE) 
+                    rubbishType = (RubbishType)UnityEngine.Random.Range(1, Enum.GetValues(typeof(RubbishType)).Length);
                 
                 _playerInventory.Add(obj, rubbishType);
 
