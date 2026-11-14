@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using InteractionTypes;
@@ -13,7 +14,7 @@ namespace Interaction
         // 'Global' Settings
         [Header("Debug Mode")] 
         [SerializeField] private bool debugMode = true;
-
+        
         [Header("References")] 
         [SerializeField] private Transform playerTransform;
         
@@ -67,6 +68,8 @@ namespace Interaction
         
         private int _rubbishPickedUp = 0;
         private int _rubbishDroppedOff = 0;
+        private int _rubbishStolenFromPlayer = 0;
+        private int _rubbishStolenFromOthers = 0;
         private bool _isFull = false;
         
         #endregion
@@ -144,8 +147,9 @@ namespace Interaction
 
         #endregion
     
-        #region Public Getters
+        #region Public API
 
+        // Getters
         /// <summary>
         /// Returns the count of all rubish currently in the players inventory
         /// </summary>
@@ -196,9 +200,127 @@ namespace Interaction
         }
         
         /// <summary>
-        /// Returns the inventory size for the player. -1 = Inifite
+        /// Returns the inventory size for the player. -1 = Infinite
         /// </summary>
         public int GetMaxRubbishCount() => maxRubbishCount;
+        
+        
+        /// <summary>
+        /// Returns the amount of rubbish this player has had stolen BY others
+        /// </summary>
+        public int GetRubbishStolenFromPlayer() => _rubbishStolenFromPlayer;
+        
+        /// <summary>
+        /// Returns the amount of rubbish this player has stolen FROM others
+        /// </summary>
+        public int GetRubbishStolenFromOthers() => _rubbishStolenFromOthers;
+        
+        /// <summary>
+        /// Returns the PlayerID of this InteractionManager
+        /// </summary>
+        public int GetPlayerID() => _playerID;
+        
+        // Setters
+        /// <summary>
+        /// Removes the selected amount of rubbish from the players inventory manually.
+        /// Can optionally pass a rubbishType in to only remove a certain type of rubbish.
+        /// None will ignore this and just remove the count. I
+        /// If destroyItems is true it returns an empty array, if its false it returns the rubbish that was removed
+        /// </summary>
+        /// <param name="count">The amount of rubbish to remove</param>
+        /// <param name="rubbishType">The type to remove (None is a 'wildcard')</param>
+        /// <param name="destoryItems">Should the items be destroyed on removal</param>
+        /// <returns>The list of removed game objects</returns>
+        public List<GameObject> RemoveFromInventory(int count, RubbishType rubbishType = RubbishType.NONE, bool destroyItems = false)
+        {
+            List<GameObject> removedRubbish = new List<GameObject>();
+            
+            // Return if nothing to remove
+            if (count <= 0 || _playerInventory.Count <= 0) return removedRubbish;
+            
+            List<GameObject> keysToRemove;
+
+            // Get the things to remove
+            if (rubbishType == RubbishType.NONE)
+            {
+                keysToRemove = _playerInventory.Keys
+                    .Take(count).ToList();
+            }
+            else
+            {
+                keysToRemove = _playerInventory
+                    .Where(pair => pair.Value == rubbishType)
+                    .Take(count)
+                    .Select(pair => pair.Key).ToList();
+            }
+
+            // Remove those from the inventory
+            foreach (var key in keysToRemove)
+            {
+                _playerInventory.Remove(key);
+                _rubbishStolenFromPlayer++;
+
+                if (destroyItems)
+                {
+                    Destroy(key);
+                }
+                else
+                {
+                    removedRubbish.Add(key);
+                }
+            }
+            
+            return removedRubbish;
+        }
+
+        /// <summary>
+        /// Adds the list of game objects to the players inventory
+        /// </summary>
+        /// <param name="rubbishToAdd">The list of rubbish to add</param>
+        /// <returns>boolean - Was all the rubbish added</returns>
+        public bool AddToInventory(List<GameObject> rubbishToAdd)
+        {
+            if (rubbishToAdd == null || rubbishToAdd.Count == 0) return false;
+            
+            int totalToAdd = rubbishToAdd.Count;
+            int amountToAdd = totalToAdd;
+
+            if (maxRubbishCount != -1)
+            {
+                int availableSpace = maxRubbishCount - _playerInventory.Count;
+                if (availableSpace <= 0)
+                {
+                    _isFull = true;
+                    OnInventoryFull?.Invoke(_playerID);
+                    return false;
+                }
+                amountToAdd = Mathf.Min(totalToAdd, availableSpace);
+            }
+
+            for (int i = 0; i < amountToAdd; i++)
+            {
+                GameObject obj = rubbishToAdd[i];
+                if (obj == null) continue;
+                
+                RubbishType rubbishType = RubbishType.NONE;
+                if (obj.TryGetComponent<IInteractable>(out IInteractable interactable))
+                {
+                    rubbishType = interactable.rubbishType;
+                    interactable.interactableState = InteractableState.IN_INVENTORY;
+                }
+                
+                _playerInventory.Add(obj, rubbishType);
+
+                _rubbishStolenFromOthers++;
+                _rubbishPickedUp++; // NOTE: Not sure if we want this to increase here, lmk
+                OnRubbishCollected?.Invoke(rubbishType, _playerID);
+                
+                obj.SetActive(false);
+            }
+            
+            return amountToAdd == totalToAdd;
+        }
+        
         #endregion
 
         #region Update Logic
