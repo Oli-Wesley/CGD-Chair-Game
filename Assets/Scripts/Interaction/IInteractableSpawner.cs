@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using InteractionTypes;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -127,6 +128,25 @@ namespace Interaction
         }
 
         /// <summary>
+        /// Spawns all the rubbish in the list passed to it
+        /// </summary>
+        /// <param name="rubbishToSpawn">The list of rubbish to spawn</param>
+        /// <returns>boolean - Was all the rubbish successfully spawned</returns>
+        public bool SpawnSpecificRubbish(List<GameObject> rubbishToSpawn)
+        {
+            foreach (GameObject rubbish in rubbishToSpawn)
+            {
+                if (rubbish.TryGetComponent<IInteractable>(out IInteractable interactable))
+                {
+                    SpawnSingleRubbish(interactable.rubbishType);
+                    Destroy(rubbish);
+                }
+            }
+            
+            return rubbishToSpawn.Count <= 0;
+        }
+
+        /// <summary>
         /// Stop the spawner spawning rubbish
         /// </summary>
         public void StopSpawning()
@@ -162,7 +182,7 @@ namespace Interaction
             else _nextSpawnTime -= Time.deltaTime;
         }
         
-        private void SpawnRubbish()
+        private void SpawnRubbish(RubbishType rubbishType = RubbishType.NONE)
         {
             int numberToSpawn = Random.Range(minSpawnAmount, maxSpawnAmount);
 
@@ -172,67 +192,72 @@ namespace Interaction
 
             for (int i = 0; i < numberToSpawn; i++)
             {
-                float distanceToSpawn = Random.Range(minSpawnRadius, maxSpawnRadius);
-                Vector3 spawnPos = transform.position;
-
-                if (desiredSpawnShape == SpawnShape.CUBE)
-                {
-                    // Spawn at a random point in the cube
-                    spawnPos += new Vector3(
-                        Random.Range(-1f, 1f),
-                        Random.Range(-1f, 1f),
-                        Random.Range(-1f, 1f)
-                    ).normalized * distanceToSpawn;
-                }
-                else if (desiredSpawnShape == SpawnShape.SPHERE)
-                {
-                    // Spawn at a random point in the sphere
-                    Vector3 randomDir = Random.onUnitSphere;
-                    spawnPos += randomDir * distanceToSpawn;
-                }
-
-                if (desiredSpawnShape == SpawnShape.CONE)
-                {
-                    // Spawn at a random point in the cone
-                    float randomAngle = Random.Range(0f, coneAngle);
-                    float randomAxisAngle = Random.Range(0f, 360f);
-
-                    Quaternion coneRotation = 
-                        Quaternion.AngleAxis(randomAngle, Vector3.up) * Quaternion.AngleAxis(randomAxisAngle, Vector3.forward);
-                    
-                    Vector3 coneDirection = transform.rotation * coneRotation * Vector3.forward;
-
-                    spawnPos += coneDirection * distanceToSpawn;
-                }
-
-                // Actually Spawn the rubbish
-                if (rubbishPrefab != null)
-                {
-                    GameObject obj = Instantiate(rubbishPrefab, spawnPos, Random.rotation, rubbishParent);
-                    
-                    // Apply force to cones
-                    if (desiredSpawnShape == SpawnShape.CONE)
-                    {
-                        Rigidbody rb = obj.GetComponent<Rigidbody>();
-                        if (rb != null)
-                            rb.AddForce(Vector3.forward * spawnForce, ForceMode.Impulse);
-                    }
-                    
-                    // Set rubbish type
-                    IInteractable interactable = obj.GetComponent<IInteractable>();
-                    if (interactable != null)
-                    {
-                        interactable.rubbishType = typeToSpawn;
-                        interactable.UpdateRubbishColour();
-                    }
-                    
-                    if (maxAllowedToSpawn != -1) _spawnedCount++;
-                }
+                SpawnSingleRubbish(typeToSpawn);
             }
             
             // Set the delay for the next burst
             float nextDelay = Random.Range(minSpawnFrequency, maxSpawnFrequency);
             _nextSpawnTime = nextDelay;
+        }
+
+        private void SpawnSingleRubbish(RubbishType rubbishType)
+        {
+            float distanceToSpawn = Random.Range(minSpawnRadius, maxSpawnRadius);
+            Vector3 spawnPos = transform.position;
+
+            if (desiredSpawnShape == SpawnShape.CUBE)
+            {
+                // Spawn at a random point in the cube
+                spawnPos += new Vector3(
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f))
+                    .normalized * distanceToSpawn;
+            }
+            else if (desiredSpawnShape == SpawnShape.SPHERE)
+            {
+                // Spawn at a random point in the sphere
+                Vector3 randomDir = Random.onUnitSphere;
+                spawnPos += randomDir * distanceToSpawn;
+            }
+
+            if (desiredSpawnShape == SpawnShape.CONE)
+            {
+                // Spawn at a random point in the cone
+                float randomAngle = Random.Range(0f, coneAngle);
+                float randomAxisAngle = Random.Range(0f, 360f);
+
+                Quaternion coneRotation = 
+                    Quaternion.AngleAxis(randomAngle, Vector3.up) * Quaternion.AngleAxis(randomAxisAngle, Vector3.forward);
+                    
+                Vector3 coneDirection = transform.rotation * coneRotation * Vector3.forward;
+
+                spawnPos += coneDirection * distanceToSpawn;
+            }
+
+            // Actually Spawn the rubbish
+            if (rubbishPrefab != null)
+            {
+                GameObject obj = Instantiate(rubbishPrefab, spawnPos, Random.rotation, rubbishParent);
+                    
+                // Apply force to cones
+                if (desiredSpawnShape == SpawnShape.CONE)
+                {
+                    Rigidbody rb = obj.GetComponent<Rigidbody>();
+                    if (rb != null)
+                        rb.AddForce(Vector3.forward * spawnForce, ForceMode.Impulse);
+                }
+                    
+                // Set rubbish type
+                IInteractable interactable = obj.GetComponent<IInteractable>();
+                if (interactable != null)
+                {
+                    interactable.rubbishType = typeToSpawn;
+                    interactable.UpdateRubbishColour();
+                }
+                    
+                if (maxAllowedToSpawn != -1) _spawnedCount++;
+            }
         }
         
         #endregion
