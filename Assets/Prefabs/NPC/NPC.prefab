@@ -124,13 +124,17 @@ PrefabInstance:
       value: 11.2
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
+      propertyPath: typeToSpawn
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: startOnAwake
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: rubbishPrefab
       value: 
-      objectReference: {fileID: 7156300535790242285, guid: 9b9b32d2e2fa79a459e3799c646c0f65, type: 3}
+      objectReference: {fileID: 7156300535790242285, guid: 56e10b1abe7c89642be7113e0c56b45f, type: 3}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: maxSpawnRadius
       value: 1.92

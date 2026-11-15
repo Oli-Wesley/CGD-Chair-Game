@@ -320,39 +320,42 @@ namespace Interaction
             
             return amountToAdd == totalToAdd;
         }
-        
+
         #endregion
 
         #region Update Logic
-        
+
         private void FixedUpdate()
         {
             // Handle Inventory Fullness
             if (maxRubbishCount != -1) _isFull = _playerInventory.Count >= maxRubbishCount;
             else _isFull = false;
-            
+
+            // Drop Off (Runs if inside a drop off point and has objects to drop off)
             if (_currentDropoffPoint != null)
             {
-                // Drop Off (Only in drop off)
                 if (_objectsToDropOff.Count > 0)
                 {
                     DropOffInventory();
                 }
             }
-            else
+
+            // Pick Up (Runs independently whenever the inventory is not full)
+            if (!_isFull)
             {
-                // Pick Up (Only when not in drop off)
-                if (!_isFull)
-                    GetInteractables();
-            
-                if (_nearbyTransforms.Count > 0) MoveInteractables();
+                GetInteractables();
+            }
+
+            if (_nearbyTransforms.Count > 0)
+            {
+                MoveInteractables();
             }
         }
 
         #endregion
-    
+
         #region Item Collection Logic
-    
+
         // Checks the interaction range for interactables and gathers them
         private void GetInteractables()
         {
