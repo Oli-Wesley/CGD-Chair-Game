@@ -81,7 +81,8 @@ public class PlayerController : MonoBehaviour
             _modelMaterial = meshRenderer.material;
             _normalColor = _modelMaterial.color;
         }
-        
+
+        _rb.interpolation = RigidbodyInterpolation.Interpolate;
     }
 
     // Movement Logic

@@ -1,6 +1,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using InteractionTypes;
@@ -13,10 +14,10 @@ namespace Interaction
         // 'Global' Settings
         [Header("Debug Mode")] 
         [SerializeField] private bool debugMode = true;
-
+        
         [Header("References")] 
         [SerializeField] private Transform playerTransform;
-
+        
         #region Pickup Settings
         
         [Header("Interaction Settings (Pickup)")]
@@ -37,7 +38,15 @@ namespace Interaction
         [SerializeField] private float minCollectDistance = 1f;
         
         #endregion
-    
+
+        #region Inventory Settings
+
+        [Header("Inventory Settings")]
+        [Tooltip("The max number of rubbish a player can carry (-1 = Infinite)")] 
+        [SerializeField] private int maxRubbishCount = -1;
+
+        #endregion
+        
         #region Drop Off Settings
     
         [Header("Interaction Settings (Drop Off)")]
@@ -49,14 +58,19 @@ namespace Interaction
     
         #region Variables
 
+        private int _playerID = -1;
+        
         private Dictionary<Transform, RubbishType> _nearbyTransforms = new Dictionary<Transform, RubbishType>();
         private Dictionary<GameObject, RubbishType> _playerInventory = new Dictionary<GameObject, RubbishType>();
         private List<GameObject> _objectsToDropOff = new List<GameObject>();
     
         private IDropoffPoint _currentDropoffPoint;
+        
         private int _rubbishPickedUp = 0;
         private int _rubbishDroppedOff = 0;
-        private int _playerID = -1;
+        private int _rubbishStolenFromPlayer = 0;
+        private int _rubbishStolenFromOthers = 0;
+        private bool _isFull = false;
         
         #endregion
     
@@ -64,19 +78,28 @@ namespace Interaction
 
         /// <summary>
         /// Event called every time rubbish is added to the player inventory
+        /// Carries: RubbishType and Player ID
         /// </summary>
-        public static event Action<RubbishType> OnRubbishCollected;
+        public static event Action<RubbishType, int> OnRubbishCollected;
     
         /// <summary>
         /// Event called every time the player detects new rubbish
+        /// Carries: RubbishType and Player ID
         /// </summary>
-        public static event Action<RubbishType> OnRubbishDetected;
+        public static event Action<RubbishType, int> OnRubbishDetected;
     
         /// <summary>
         /// Event called every time the player drops off rubbish
+        /// Carries: RubbishType and Player ID
         /// </summary>
-        public static event Action<RubbishType> OnRubbishDroppedOff;
-    
+        public static event Action<RubbishType, int> OnRubbishDroppedOff;
+        
+        /// <summary>
+        /// Event called when the players inventory fills up
+        /// Carries: Player ID
+        /// </summary>
+        public static event Action<int> OnInventoryFull;
+        
         #endregion
     
         #region Setup
@@ -124,8 +147,9 @@ namespace Interaction
 
         #endregion
     
-        #region Public Getters
+        #region Public API
 
+        // Getters
         /// <summary>
         /// Returns the count of all rubish currently in the players inventory
         /// </summary>
@@ -174,16 +198,142 @@ namespace Interaction
         {
             return _rubbishDroppedOff;
         }
+        
+        /// <summary>
+        /// Returns the inventory size for the player. -1 = Infinite
+        /// </summary>
+        public int GetMaxRubbishCount() => maxRubbishCount;
+        
+        
+        /// <summary>
+        /// Returns the amount of rubbish this player has had stolen BY others
+        /// </summary>
+        public int GetRubbishStolenFromPlayer() => _rubbishStolenFromPlayer;
+        
+        /// <summary>
+        /// Returns the amount of rubbish this player has stolen FROM others
+        /// </summary>
+        public int GetRubbishStolenFromOthers() => _rubbishStolenFromOthers;
+        
+        /// <summary>
+        /// Returns the PlayerID of this InteractionManager
+        /// </summary>
+        public int GetPlayerID() => _playerID;
+        
+        // Setters
+        /// <summary>
+        /// Removes the selected amount of rubbish from the players inventory manually.
+        /// Can optionally pass a rubbishType in to only remove a certain type of rubbish.
+        /// None will ignore this and just remove the count. I
+        /// If destroyItems is true it returns an empty array, if its false it returns the rubbish that was removed
+        /// </summary>
+        /// <param name="count">The amount of rubbish to remove</param>
+        /// <param name="rubbishType">The type to remove (None is a 'wildcard')</param>
+        /// <param name="destoryItems">Should the items be destroyed on removal</param>
+        /// <returns>The list of removed game objects</returns>
+        public List<GameObject> RemoveFromInventory(int count, RubbishType rubbishType = RubbishType.NONE, bool destroyItems = false)
+        {
+            List<GameObject> removedRubbish = new List<GameObject>();
+            
+            // Return if nothing to remove
+            if (count <= 0 || _playerInventory.Count <= 0) return removedRubbish;
+            
+            List<GameObject> keysToRemove;
+
+            // Get the things to remove
+            if (rubbishType == RubbishType.NONE)
+            {
+                keysToRemove = _playerInventory.Keys
+                    .Take(count).ToList();
+            }
+            else
+            {
+                keysToRemove = _playerInventory
+                    .Where(pair => pair.Value == rubbishType)
+                    .Take(count)
+                    .Select(pair => pair.Key).ToList();
+            }
+
+            // Remove those from the inventory
+            foreach (var key in keysToRemove)
+            {
+                _playerInventory.Remove(key);
+                _rubbishStolenFromPlayer++;
+
+                if (destroyItems)
+                {
+                    Destroy(key);
+                }
+                else
+                {
+                    removedRubbish.Add(key);
+                }
+            }
+            
+            return removedRubbish;
+        }
+
+        /// <summary>
+        /// Adds the list of game objects to the players inventory
+        /// </summary>
+        /// <param name="rubbishToAdd">The list of rubbish to add</param>
+        /// <returns>boolean - Was all the rubbish added</returns>
+        public bool AddToInventory(List<GameObject> rubbishToAdd)
+        {
+            if (rubbishToAdd == null || rubbishToAdd.Count == 0) return false;
+            
+            int totalToAdd = rubbishToAdd.Count;
+            int amountToAdd = totalToAdd;
+
+            if (maxRubbishCount != -1)
+            {
+                int availableSpace = maxRubbishCount - _playerInventory.Count;
+                if (availableSpace <= 0)
+                {
+                    _isFull = true;
+                    OnInventoryFull?.Invoke(_playerID);
+                    return false;
+                }
+                amountToAdd = Mathf.Min(totalToAdd, availableSpace);
+            }
+
+            for (int i = 0; i < amountToAdd; i++)
+            {
+                GameObject obj = rubbishToAdd[i];
+                if (obj == null) continue;
+                
+                RubbishType rubbishType = RubbishType.NONE;
+                if (obj.TryGetComponent<IInteractable>(out IInteractable interactable))
+                {
+                    rubbishType = interactable.rubbishType;
+                    interactable.interactableState = InteractableState.IN_INVENTORY;
+                }
+                
+                _playerInventory.Add(obj, rubbishType);
+
+                _rubbishStolenFromOthers++;
+                _rubbishPickedUp++; // NOTE: Not sure if we want this to increase here, lmk
+                OnRubbishCollected?.Invoke(rubbishType, _playerID);
+                
+                obj.SetActive(false);
+            }
+            
+            return amountToAdd == totalToAdd;
+        }
+        
         #endregion
 
         #region Update Logic
         
         private void FixedUpdate()
         {
+            // Handle Inventory Fullness
+            if (maxRubbishCount != -1) _isFull = _playerInventory.Count >= maxRubbishCount;
+            else _isFull = false;
+            
             if (_currentDropoffPoint != null)
             {
                 // Drop Off (Only in drop off)
-
                 if (_objectsToDropOff.Count > 0)
                 {
                     DropOffInventory();
@@ -192,7 +342,8 @@ namespace Interaction
             else
             {
                 // Pick Up (Only when not in drop off)
-                GetInteractables();
+                if (!_isFull)
+                    GetInteractables();
             
                 if (_nearbyTransforms.Count > 0) MoveInteractables();
             }
@@ -212,7 +363,7 @@ namespace Interaction
                 if (collider.TryGetComponent<IInteractable>(out IInteractable interactable))
                 {
                     // Ignore items that are being dealt with
-                    if (interactable.interactableState != InteractableState.IDLE) return;
+                    if (interactable.interactableState != InteractableState.IDLE) continue;
                     
                     Transform objTransform = collider.transform;
                     interactable.interactableState = InteractableState.PICKING_UP;
@@ -220,7 +371,7 @@ namespace Interaction
                     if (!_nearbyTransforms.ContainsKey(objTransform))
                     {
                         _nearbyTransforms.Add(objTransform, interactable.rubbishType);
-                        OnRubbishDetected?.Invoke(interactable.rubbishType);
+                        OnRubbishDetected?.Invoke(interactable.rubbishType, _playerID);
                     }
                 }
             }
@@ -239,19 +390,36 @@ namespace Interaction
                 
                 if (obj != null)
                 {
+                    if (_isFull)
+                    {
+                        if (obj.TryGetComponent<IInteractable>(out IInteractable interactable))
+                            interactable.interactableState = InteractableState.IDLE;
+                        keysToRemove.Add(obj);
+                        continue;
+                    }
+                    
                     MoveItemTowards(obj, playerTransform, flySpeed, true);
                 
                     // Check if its close enough
                     Vector3 objXZ = new Vector3(obj.position.x, playerTransform.position.y, obj.position.z);
                     float sqrDistance = (objXZ - playerTransform.position).sqrMagnitude;
+                    
                     if (sqrDistance < (minCollectDistance * minCollectDistance))
                     {
+                        if (maxRubbishCount != -1 && (_playerInventory.Count >= maxRubbishCount))
+                        {
+                            _isFull = true;
+                            OnInventoryFull?.Invoke(_playerID);
+                            _nearbyTransforms.Clear();
+                            break;
+                        }
+                        
                         _playerInventory.Add(obj.gameObject, pair.Value);
 
                         if (obj.TryGetComponent<IInteractable>(out IInteractable interactable)) 
                             interactable.interactableState = InteractableState.IN_INVENTORY;
                         
-                        OnRubbishCollected?.Invoke(pair.Value);
+                        OnRubbishCollected?.Invoke(pair.Value, _playerID);
                         _rubbishPickedUp++;
                         obj.gameObject.SetActive(false);
                         keysToRemove.Add(obj);
@@ -353,7 +521,7 @@ namespace Interaction
                     }
 
                     _objectsToDropOff.RemoveAt(0);
-                    OnRubbishDroppedOff?.Invoke(_currentDropoffPoint.acceptedType);
+                    OnRubbishDroppedOff?.Invoke(_currentDropoffPoint.acceptedType, _playerID);
                     Destroy(obj.gameObject);
                     _rubbishDroppedOff++;
                 }
@@ -391,8 +559,17 @@ namespace Interaction
             }
         
             itemToMove.position = new Vector3(nextPos.x, nextPos.y + heightOffset, nextPos.z);
+            
+            /*
+             * I want to add some code to make items shrink when they fly towards the player,
+             * and grow when they leave the player.
+             *
+             * I'm going to leave that until after alpha tho, as it is definitely a nice to
+             * have not a need to have
+             */
+            
         }
-    
+        
         #endregion
     
         #region Debug
