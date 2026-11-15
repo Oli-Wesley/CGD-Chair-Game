@@ -10,7 +10,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3192782880762157856, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
       propertyPath: m_Name
-      value: Bin Variant
+      value: BinCardboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288941863496308045, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: zoneSize.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5288941863496308045, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: zoneSize.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887901831561404006, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: m_Size.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6887901831561404006, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: m_Size.z
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353311792416030672, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353311792416030672, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7353311792416030672, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7353311792416030672, guid: f4afe583bf7ed0d459b757446256f04c, type: 3}
       propertyPath: m_LocalPosition.x

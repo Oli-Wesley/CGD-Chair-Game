@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/NavMeshSample.unity
+    path: Assets/Scenes/MainScene.unity
     guid: bb656837e94f1c044acb3281b6769694
   - enabled: 1
     path: Assets/Scenes/DanielCityScene.unity
