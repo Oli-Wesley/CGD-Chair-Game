@@ -120,6 +120,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
+      propertyPath: rubbishPrefab
+      value: 
+      objectReference: {fileID: 7156300535790242285, guid: 9b9b32d2e2fa79a459e3799c646c0f65, type: 3}
+    - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: maxSpawnAmount
       value: 1
       objectReference: {fileID: 0}
