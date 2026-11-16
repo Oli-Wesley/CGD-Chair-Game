@@ -5166,6 +5166,9 @@ MonoBehaviour:
   dropSpawner: {fileID: 8191028004403032896}
   removalAmount: 10
   hitCooldown: 1
+  slowCollisionParticlesPrefab: {fileID: 1272328739691929172, guid: 0a3d2b3556e1d8beba8f7670b9c08ce5, type: 3}
+  dashCollisionParticlesPrefab: {fileID: 3122904543175084555, guid: d805282bb4908b759bd48fa40ee156ad, type: 3}
+  poolSize: 5
 --- !u!114 &6525037166751315302
 MonoBehaviour:
   m_ObjectHideFlags: 0

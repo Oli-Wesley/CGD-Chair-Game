@@ -68,8 +68,8 @@ public class PlayerController : MonoBehaviour
     {
         _characterModel = transform.Find("Player Model").gameObject;
 
-            _driftParticles = _characterModel.transform.Find("DriftParticles").gameObject.GetComponent<ParticleSystem>();
-            _dashParticles = _characterModel.transform.Find("DashParticles").gameObject.GetComponent<ParticleSystem>();
+        _driftParticles = _characterModel.transform.Find("DriftParticles").gameObject.GetComponent<ParticleSystem>();
+        _dashParticles = _characterModel.transform.Find("DashParticles").gameObject.GetComponent<ParticleSystem>();
         _driftParticles.Stop();
         _dashParticles.Stop();
         

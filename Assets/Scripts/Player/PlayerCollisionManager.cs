@@ -19,10 +19,15 @@ public class PlayerCollisionManager : MonoBehaviour
     [Tooltip("Seconds before this player can drop rubbish again (stops one bump firing several times)")]
     [SerializeField] private float hitCooldown = 1f;
     
-    private ParticleSystem _hitParticles;
-    private ParticleSystem _throwParticles;
-    private List<ParticleSystem> _currentlyPlaying;
-
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem slowCollisionParticlesPrefab;
+    [SerializeField] private ParticleSystem dashCollisionParticlesPrefab;
+    [Tooltip("Maximum amount of collision particles a player can create")]
+    [SerializeField] private int poolSize = 5;
+    
+    private ParticlePool _slowColPool;
+    private ParticlePool _dashColPool;
+    
     private float _lastHitTime = -999f;
 
     private void Awake()
@@ -32,13 +37,29 @@ public class PlayerCollisionManager : MonoBehaviour
 
         if (!interactionManager) Debug.LogError($"[PlayerCollisionManager ({name})] No InteractionManager found");
         if (!dropSpawner) Debug.LogError($"[PlayerCollisionManager ({name})] No IInteractableSpawner found");
+        
+    }
+
+    private void Start()
+    {
+        _slowColPool = new ParticlePool(slowCollisionParticlesPrefab, poolSize);
+        _dashColPool = new ParticlePool(dashCollisionParticlesPrefab, poolSize);
+    }
+    
+    private void OnDestroy()
+    {
+        _slowColPool?.Destroy();
+        _dashColPool?.Destroy();
     }
 
     private void OnCollisionEnter(Collision other)
     {
+        // check for player tag
         if (!other.gameObject.CompareTag("Player")) return;
-        //just hit
-        _currentlyPlaying.Add(Instantiate(_hitParticles, other.contacts[0].point, Quaternion.identity));
+        
+        // normal collision
+        Vector3 hitPos = other.GetContact(0).point;
+        _slowColPool.Play(hitPos);
         
         if (Time.time - _lastHitTime < hitCooldown) return;
         
@@ -47,8 +68,9 @@ public class PlayerCollisionManager : MonoBehaviour
         // only drop things if the other player is dashing.
         if (!other.gameObject.GetComponent<PlayerController>().isDashing()) return;
 
-        // hit and throw
-        _currentlyPlaying.Add(Instantiate(_throwParticles, other.contacts[0].point, Quaternion.identity));
+        // dash collision
+        _dashColPool.Play(hitPos);
+        
         _lastHitTime = Time.time;
         
         List<GameObject> dropped = interactionManager.RemoveFromInventory(removalAmount);
