@@ -3,6 +3,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+
+
 namespace Player{
 public class PlayerManager : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class PlayerManager : MonoBehaviour
     public Color playerColor;
     private SceneInfo scene_info;
     private CinemachineTargetGroup  m_targetGroup;
+    
+    private PlayerText _playerText;
 
     public void SpawnPlayer(int _playerCount)
     {
@@ -18,6 +22,8 @@ public class PlayerManager : MonoBehaviour
         if (!scene_info){scene_info = GameObject.Find("@ SCENE INFO").GetComponent<SceneInfo>(); }
         var target =  scene_info.getSpawnLocation(m_playerCount);
         this.transform.SetPositionAndRotation(target.position, target.rotation);
+
+        // _playerText.UpdatePlayerDisplay(_playerCount, true);
     }
 
     public void RespawnPlayer()
