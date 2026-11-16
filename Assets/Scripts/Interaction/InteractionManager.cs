@@ -229,7 +229,7 @@ namespace Interaction
         /// </summary>
         /// <param name="count">The amount of rubbish to remove</param>
         /// <param name="rubbishType">The type to remove (None is a 'wildcard')</param>
-        /// <param name="destoryItems">Should the items be destroyed on removal</param>
+        /// <param name="destroyItems">Should the items be destroyed on removal</param>
         /// <returns>The list of removed game objects</returns>
         public List<GameObject> RemoveFromInventory(int count, RubbishType rubbishType = RubbishType.NONE, bool destroyItems = false)
         {
@@ -320,39 +320,42 @@ namespace Interaction
             
             return amountToAdd == totalToAdd;
         }
-        
+
         #endregion
 
         #region Update Logic
-        
+
         private void FixedUpdate()
         {
             // Handle Inventory Fullness
             if (maxRubbishCount != -1) _isFull = _playerInventory.Count >= maxRubbishCount;
             else _isFull = false;
-            
+
+            // Drop Off (Runs if inside a drop off point and has objects to drop off)
             if (_currentDropoffPoint != null)
             {
-                // Drop Off (Only in drop off)
                 if (_objectsToDropOff.Count > 0)
                 {
                     DropOffInventory();
                 }
             }
-            else
+
+            // Pick Up (Runs independently whenever the inventory is not full)
+            if (!_isFull)
             {
-                // Pick Up (Only when not in drop off)
-                if (!_isFull)
-                    GetInteractables();
-            
-                if (_nearbyTransforms.Count > 0) MoveInteractables();
+                GetInteractables();
+            }
+
+            if (_nearbyTransforms.Count > 0)
+            {
+                MoveInteractables();
             }
         }
 
         #endregion
-    
+
         #region Item Collection Logic
-    
+
         // Checks the interaction range for interactables and gathers them
         private void GetInteractables()
         {

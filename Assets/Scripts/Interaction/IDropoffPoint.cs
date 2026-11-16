@@ -107,7 +107,11 @@ namespace Interaction
             );
         
             Renderer renderer = debugCube.GetComponent<Renderer>();
+            if (renderer != null) return; // I think because it's a prefab it it runs OnValidate() -> UpdateDebugCube() before Awake()
+                                             // meaning it tries to get renderer and set it's color but there's no material/box yet so it 
+                                             // throws an exception. Current fix just checks if the renderer is null and if yes skips the rest
             Color colour = RubbishHelper.GetColourForRubbishType(acceptedType);
+
             if (renderer) renderer.sharedMaterial.SetColor("_Color", colour);
         }
         #endregion

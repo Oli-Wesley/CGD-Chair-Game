@@ -7,7 +7,6 @@ namespace Player
     public class PlayerSpawner : MonoBehaviour
     {
         [SerializeField] private CinemachineTargetGroup targetGroup;
-        [SerializeField] public Transform[] spawnPoints;
         [SerializeField] public Color[] Colors;
 
         [Header("CINEMACHINE SETTINGS")]
@@ -33,16 +32,11 @@ namespace Player
                 Destroy(playerInput.gameObject);
                 return;
             }
-
-            // NOTE - COULD SIGNAL SOME UI STUFF HERE?
-
-            // position and rotate the newly joined player
-            playerInput.transform.SetPositionAndRotation(spawnPoints[_mplayerCount].position, spawnPoints[_mplayerCount].rotation);
-
+            
             // configure player color and ID
             var playerManager = playerInput.transform.GetComponent<PlayerManager>();
             playerManager.playerColor = Colors[_mplayerCount];
-            playerManager.m_playerCount = _mplayerCount;
+            playerManager.SpawnPlayer(_mplayerCount);
 
             // add the player to the CINEMACHINE TARGET GROUP
             if (targetGroup != null)
@@ -51,7 +45,7 @@ namespace Player
             }
 
             // OR HERE SIGNAL SOME UI STUFF?
-            print("spawned Player " + _mplayerCount + " at position " + spawnPoints[_mplayerCount].position);
+            print("spawned Player " + _mplayerCount);
             _mplayerCount++;
         }
     }

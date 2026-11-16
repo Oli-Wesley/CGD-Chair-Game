@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using InteractionTypes;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -69,6 +71,10 @@ namespace Interaction
         [Tooltip("The force applied on leaving the cone")]
         [Range(10.0f, 100.0f)][SerializeField] private float spawnForce = 15f;
 
+        [Header("Eject Settings (Used by EjectObjects)")]
+        [Tooltip("Seconds before ejected rubbish can be picked up again (stops the owner instantly re-collecting it)")]
+        [Range(0.0f, 5.0f)][SerializeField] private float ejectPickupDelay = 1.0f;
+
         #endregion
 
         #region Variables
@@ -109,7 +115,8 @@ namespace Interaction
 
             if (startOnAwake) _isSpawning = true;
             else _isSpawning = false;
-            
+
+            rubbishParent = GameObject.Find("@ RubbishParent").transform;
             ResetValues();
         }
 
@@ -149,6 +156,42 @@ namespace Interaction
         {
             typeToSpawn = rubbishType;
         }
+
+        /// <summary>
+        /// Throws EXISTING rubbish objects (e.g. ones removed from a player's inventory) out of this
+        /// spawner using its shape settings. Objects keep their own RubbishType.
+        /// </summary>
+        /// <param name="objects">The objects to eject (usually from InteractionManager.RemoveFromInventory)</param>
+        public void EjectObjects(List<GameObject> objects)
+        {
+            if (objects == null) return;
+
+            foreach (GameObject obj in objects)
+            {
+                if (obj == null) continue;
+
+                Vector3 direction = GetSpawnDirection();
+                float distance = Random.Range(minSpawnRadius, maxSpawnRadius);
+
+                obj.transform.SetParent(rubbishParent);
+                obj.transform.SetPositionAndRotation(transform.position + direction * distance, Random.rotation);
+                obj.SetActive(true);
+
+                if (obj.TryGetComponent(out Rigidbody rb))
+                {
+                    // Clear any velocity left over from before it was picked up
+                    rb.linearVelocity = Vector3.zero;
+                    rb.angularVelocity = Vector3.zero;
+
+                    if (desiredSpawnShape == SpawnShape.CONE)
+                        rb.AddForce(direction * spawnForce, ForceMode.Impulse);
+                }
+
+                // It stays IN_INVENTORY (so nobody can grab it) until the delay passes
+                if (obj.TryGetComponent(out IInteractable interactable))
+                    StartCoroutine(MakePickupableAfterDelay(interactable, ejectPickupDelay));
+            }
+        }
         #endregion
 
         #region Update Logic
@@ -173,49 +216,20 @@ namespace Interaction
             for (int i = 0; i < numberToSpawn; i++)
             {
                 float distanceToSpawn = Random.Range(minSpawnRadius, maxSpawnRadius);
-                Vector3 spawnPos = transform.position;
-
-                if (desiredSpawnShape == SpawnShape.CUBE)
-                {
-                    // Spawn at a random point in the cube
-                    spawnPos += new Vector3(
-                        Random.Range(-1f, 1f),
-                        Random.Range(-1f, 1f),
-                        Random.Range(-1f, 1f)
-                    ).normalized * distanceToSpawn;
-                }
-                else if (desiredSpawnShape == SpawnShape.SPHERE)
-                {
-                    // Spawn at a random point in the sphere
-                    Vector3 randomDir = Random.onUnitSphere;
-                    spawnPos += randomDir * distanceToSpawn;
-                }
-
-                if (desiredSpawnShape == SpawnShape.CONE)
-                {
-                    // Spawn at a random point in the cone
-                    float randomAngle = Random.Range(0f, coneAngle);
-                    float randomAxisAngle = Random.Range(0f, 360f);
-
-                    Quaternion coneRotation = 
-                        Quaternion.AngleAxis(randomAngle, Vector3.up) * Quaternion.AngleAxis(randomAxisAngle, Vector3.forward);
-                    
-                    Vector3 coneDirection = transform.rotation * coneRotation * Vector3.forward;
-
-                    spawnPos += coneDirection * distanceToSpawn;
-                }
+                Vector3 direction = GetSpawnDirection();
+                Vector3 spawnPos = transform.position + direction * distanceToSpawn;
 
                 // Actually Spawn the rubbish
                 if (rubbishPrefab != null)
                 {
                     GameObject obj = Instantiate(rubbishPrefab, spawnPos, Random.rotation, rubbishParent);
-                    
-                    // Apply force to cones
+
+                    // Apply force to cones (along the cone direction, not world forward)
                     if (desiredSpawnShape == SpawnShape.CONE)
                     {
                         Rigidbody rb = obj.GetComponent<Rigidbody>();
                         if (rb != null)
-                            rb.AddForce(Vector3.forward * spawnForce, ForceMode.Impulse);
+                            rb.AddForce(direction * spawnForce, ForceMode.Impulse);
                     }
                     
                     // Set rubbish type
@@ -243,6 +257,39 @@ namespace Interaction
         {
             _nextSpawnTime = 0.0f;
             _spawnedCount = maxAllowedToSpawn == -1 ? -1 : 0;
+        }
+
+        // Returns a normalised direction from the spawner based on the chosen shape
+        private Vector3 GetSpawnDirection()
+        {
+            switch (desiredSpawnShape)
+            {
+                case SpawnShape.CUBE:
+                    return new Vector3(
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f),
+                        Random.Range(-1f, 1f)
+                    ).normalized;
+
+                case SpawnShape.SPHERE:
+                    return Random.onUnitSphere;
+
+                case SpawnShape.CONE:
+                default:
+                    float randomAngle = Random.Range(0f, coneAngle);
+                    float randomAxisAngle = Random.Range(0f, 360f);
+
+                    Quaternion coneRotation =
+                        Quaternion.AngleAxis(randomAxisAngle, Vector3.forward) * Quaternion.AngleAxis(randomAngle, Vector3.up);
+
+                    return transform.rotation * coneRotation * Vector3.forward;
+            }
+        }
+
+        private IEnumerator MakePickupableAfterDelay(IInteractable interactable, float delay)
+        {
+            if (delay > 0f) yield return new WaitForSeconds(delay);
+            if (interactable != null) interactable.interactableState = InteractableState.IDLE;
         }
 
         #endregion
@@ -327,4 +374,3 @@ namespace Interaction
         #endregion
     }
 }
-
