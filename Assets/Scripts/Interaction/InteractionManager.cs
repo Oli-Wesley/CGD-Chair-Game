@@ -229,7 +229,7 @@ namespace Interaction
         /// </summary>
         /// <param name="count">The amount of rubbish to remove</param>
         /// <param name="rubbishType">The type to remove (None is a 'wildcard')</param>
-        /// <param name="destoryItems">Should the items be destroyed on removal</param>
+        /// <param name="destroyItems">Should the items be destroyed on removal</param>
         /// <returns>The list of removed game objects</returns>
         public List<GameObject> RemoveFromInventory(int count, RubbishType rubbishType = RubbishType.NONE, bool destroyItems = false)
         {

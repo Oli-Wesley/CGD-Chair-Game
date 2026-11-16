@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _moveAction;
     private InputAction _pushAction;
     private ParticleSystem _driftParticles;
+    private ParticleSystem _dashParticles;
     private Material _modelMaterial;
     private Color _normalColor;
     
@@ -67,8 +68,10 @@ public class PlayerController : MonoBehaviour
     {
         _characterModel = transform.Find("Player Model").gameObject;
 
-        _driftParticles = _characterModel.transform.Find("ParticleEmmiter").gameObject.GetComponent<ParticleSystem>();
+            _driftParticles = _characterModel.transform.Find("DriftParticles").gameObject.GetComponent<ParticleSystem>();
+            _dashParticles = _characterModel.transform.Find("DashParticles").gameObject.GetComponent<ParticleSystem>();
         _driftParticles.Stop();
+        _dashParticles.Stop();
         
         _moveAction = _playerInput.actions["Move"];
         _pushAction = _playerInput.actions["Push"];
@@ -120,7 +123,7 @@ public class PlayerController : MonoBehaviour
         {
             Push();
         }
-
+        
         UpdateFacing();
         UpdateDriftParticles();
         UpdatePushTint();
@@ -132,6 +135,7 @@ public class PlayerController : MonoBehaviour
             return;
 
         _nextPushTime = Time.time + pushCooldown;
+        _dashParticles.Play();
 
         // Shove the way the chair is facing, along the ground.
         Vector3 pushDirection = Vector3.ProjectOnPlane(_facingDirection, _smoothedUp).normalized;
@@ -195,6 +199,11 @@ public class PlayerController : MonoBehaviour
         {
             _driftParticles.Stop();
         }
+    }
+
+    public bool isDashing()
+    {
+        return PushOnCooldown;
     }
 }
 }
