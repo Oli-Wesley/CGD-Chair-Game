@@ -16,11 +16,12 @@ public class PlayerCollisionManager : MonoBehaviour
     [Tooltip("How much rubbish this player drops when hit")]
     [SerializeField] private int removalAmount = 10;
     
-    [Tooltip("How hard to push the players away from each other on collisions * their current speed")]
-    [SerializeField] private int bounceForce = 10;
-
     [Tooltip("Seconds before this player can drop rubbish again (stops one bump firing several times)")]
     [SerializeField] private float hitCooldown = 1f;
+    
+    private ParticleSystem _hitParticles;
+    private ParticleSystem _throwParticles;
+    private List<ParticleSystem> _currentlyPlaying;
 
     private float _lastHitTime = -999f;
 
@@ -36,17 +37,18 @@ public class PlayerCollisionManager : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         if (!other.gameObject.CompareTag("Player")) return;
-        if (Time.time - _lastHitTime < hitCooldown) return;
+        //just hit
+        _currentlyPlaying.Add(Instantiate(_hitParticles, other.contacts[0].point, Quaternion.identity));
         
-        //apply bounce force to other player. 
+        if (Time.time - _lastHitTime < hitCooldown) return;
         
         if (!interactionManager || !dropSpawner) return;
         
         // only drop things if the other player is dashing.
         if (!other.gameObject.GetComponent<PlayerController>().isDashing()) return;
 
-        
-
+        // hit and throw
+        _currentlyPlaying.Add(Instantiate(_throwParticles, other.contacts[0].point, Quaternion.identity));
         _lastHitTime = Time.time;
         
         List<GameObject> dropped = interactionManager.RemoveFromInventory(removalAmount);

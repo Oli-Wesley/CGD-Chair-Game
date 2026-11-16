@@ -5042,9 +5042,9 @@ GameObject:
   - component: {fileID: 6476799376833506541}
   - component: {fileID: 4189354310768717887}
   - component: {fileID: 4034642311794924737}
-  - component: {fileID: 6525037166751315302}
   - component: {fileID: 1386320276847780536}
   - component: {fileID: 1436683990262000959}
+  - component: {fileID: 6525037166751315302}
   - component: {fileID: 298539508995961540}
   - component: {fileID: 7901567177880331499}
   m_Layer: 6
@@ -5136,6 +5136,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   m_playerCount: 0
   playerColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &1386320276847780536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912930263789273644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 229e2461528dff3409ff89e2ec69fc03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerScreenClamper
+  boxWidth: 55
+  boxLength: 35
+--- !u!114 &1436683990262000959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7912930263789273644}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f30c7d264df34843bf3e8b614ecbb1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerCollisionManager
+  interactionManager: {fileID: 6476799376833506541}
+  dropSpawner: {fileID: 8191028004403032896}
+  removalAmount: 10
+  hitCooldown: 1
 --- !u!114 &6525037166751315302
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5166,37 +5196,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1386320276847780536
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7912930263789273644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 229e2461528dff3409ff89e2ec69fc03, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Player.PlayerScreenClamper
-  boxWidth: 55
-  boxLength: 35
---- !u!114 &1436683990262000959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7912930263789273644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f30c7d264df34843bf3e8b614ecbb1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCollisionManager
-  interactionManager: {fileID: 6476799376833506541}
-  dropSpawner: {fileID: 8191028004403032896}
-  removalAmount: 10
-  bounceForce: 10
-  hitCooldown: 1
 --- !u!54 &298539508995961540
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5467,7 +5466,7 @@ ParticleSystem:
     startColor:
       serializedVersion: 2
       minMaxState: 3
-      minColor: {r: 0.21960786, g: 0.21960786, b: 0.21960786, a: 1}
+      minColor: {r: 1, g: 0.4313832, b: 0, a: 1}
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
@@ -10317,6 +10316,10 @@ PrefabInstance:
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: coneAngle
       value: 26.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
+      propertyPath: spawnForce
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: startOnAwake

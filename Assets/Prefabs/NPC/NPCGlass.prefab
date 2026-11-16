@@ -60,6 +60,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPCGlass
       objectReference: {fileID: 0}
+    - target: {fileID: 8689679371940385258, guid: 4906a9f7fdf7fbc489a50c7fd850c2cf, type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 4564d35008a4cb824b9444bffc6c9d67, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
