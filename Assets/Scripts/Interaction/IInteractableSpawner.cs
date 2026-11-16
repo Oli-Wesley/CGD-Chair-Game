@@ -115,7 +115,8 @@ namespace Interaction
 
             if (startOnAwake) _isSpawning = true;
             else _isSpawning = false;
-            
+
+            rubbishParent = GameObject.Find("@ RubbishParent").transform;
             ResetValues();
         }
 
