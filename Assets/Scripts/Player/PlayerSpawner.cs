@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
@@ -16,18 +18,16 @@ namespace Player
         [Header("PLAYER LIMITS")]
         // num of max players
         [SerializeField] private int maxPlayers = 4;
-
+        private readonly List<PlayerManager> _players  = new List<PlayerManager>();
         private int _mplayerCount = 0;
 
         public void OnPlayerJoined(PlayerInput playerInput)
         {
-
             // check if we have already reached the maximum player limit
             if (_mplayerCount >= maxPlayers)
             {
                 // NOT NEEDED FOR UI?
                 print("Max player limit reached (" + maxPlayers + "). Ignoring extra join request.");
-
                 // destroy the extra player input object
                 Destroy(playerInput.gameObject);
                 return;
@@ -36,8 +36,9 @@ namespace Player
             // configure player color and ID
             var playerManager = playerInput.transform.GetComponent<PlayerManager>();
             playerManager.playerColor = Colors[_mplayerCount];
-            playerManager.SpawnPlayer(_mplayerCount);
-
+            playerManager.m_playerCount = _mplayerCount;
+            _players.Add(playerManager);
+            
             // add the player to the CINEMACHINE TARGET GROUP
             if (targetGroup != null)
             {
@@ -52,8 +53,26 @@ namespace Player
             }
 
             // OR HERE SIGNAL SOME UI STUFF?
-            print("spawned Player " + _mplayerCount);
+            
             _mplayerCount++;
+            playerManager.setPlayerActive(false);
+            print("Player joined" + _mplayerCount);
+            return;
+        }
+
+        public void spawnAllPlayers()
+        {
+            print("Spawning all players (" + _players.Count + ")");
+            foreach (var player in _players)
+            {
+                player.SpawnPlayer();
+            }
+        }
+
+        public void deSpawnAllPlayers()
+        {
+            foreach (var player in _players)
+                player.setPlayerActive(false); 
         }
     }
 }

@@ -321,6 +321,20 @@ namespace Interaction
             return amountToAdd == totalToAdd;
         }
 
+        public void resetInventory()
+        {
+            foreach (KeyValuePair<GameObject, RubbishType> pair in _playerInventory)
+            {
+                _playerInventory.Remove(pair.Key);
+               Destroy(pair.Key); 
+            }
+            
+            _rubbishPickedUp = 0;
+            _rubbishStolenFromPlayer = 0;
+            _rubbishStolenFromOthers = 0;
+            _rubbishDroppedOff = 0;
+        }
+
         #endregion
 
         #region Update Logic

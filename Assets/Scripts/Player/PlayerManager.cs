@@ -1,6 +1,8 @@
+using Interaction;
 using Unity.Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 namespace Player{
@@ -11,15 +13,21 @@ public class PlayerManager : MonoBehaviour
     private SceneInfo scene_info;
     private CinemachineTargetGroup  m_targetGroup;
 
-    public void SpawnPlayer(int _playerCount)
-    {
-        m_playerCount = _playerCount;
-        // spawn at the designated player start spawn points
-        if (!scene_info){scene_info = GameObject.Find("@ SCENE INFO").GetComponent<SceneInfo>(); }
-        var target =  scene_info.getSpawnLocation(m_playerCount);
-        this.transform.SetPositionAndRotation(target.position, target.rotation);
-    }
 
+    
+    public void SpawnPlayer()
+    {
+        scene_info = GameObject.Find("@ SCENE INFO").GetComponent<SceneInfo>();
+        setPlayerActive(true);
+        // spawn at the designated player start spawn points
+        var target =  scene_info.getSpawnLocation(m_playerCount);
+        Teleport(target.position, target.rotation);
+        gameObject.GetComponent<InteractionManager>().resetInventory();
+        gameObject.GetComponent<PlayerController>().reset();
+        
+        print("Spawned player ( " + m_playerCount + ")");
+
+    }
     public void RespawnPlayer()
     {
         if (!m_targetGroup)
@@ -30,13 +38,6 @@ public class PlayerManager : MonoBehaviour
         Teleport(target.position, target.rotation);
     }
     
-
-    private void Awake()
-    {
-        scene_info = GameObject.Find("@ SCENE INFO").GetComponent<SceneInfo>();
-        print (scene_info.spawnPoints.Length);
-    }
-
     private void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Respawn")
@@ -65,6 +66,34 @@ public class PlayerManager : MonoBehaviour
         {
             transform.SetPositionAndRotation(position, rotation);
         }
+    }
+    
+    public void setPlayerActive(bool active)
+    {
+        foreach (var r in GetComponentsInChildren<Renderer>(true)) r.enabled = active;
+        foreach (var c in GetComponentsInChildren<Collider>(true)) c.enabled = active;
+
+        if (TryGetComponent(out Rigidbody rb))
+        {
+            if (active)
+            {
+                rb.isKinematic = false;
+            }
+            else
+            {
+                rb.linearVelocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true;
+            }
+        }
+
+        if (TryGetComponent(out PlayerInput input))
+        {
+            if (active) input.ActivateInput();
+            else input.DeactivateInput(); 
+        }
+
+        if (TryGetComponent(out InteractionManager im)) im.enabled = active;
     }
 }
 }

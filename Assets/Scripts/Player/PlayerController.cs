@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -204,6 +205,15 @@ public class PlayerController : MonoBehaviour
     public bool isDashing()
     {
         return PushOnCooldown;
+    }
+
+    public void reset()
+    {
+        _nextPushTime = Time.time + pushCooldown;
+        _driftParticles.Stop();
+        _dashParticles.Stop();
+        _rb.angularVelocity = Vector3.zero;
+        _rb.linearVelocity = Vector3.zero;
     }
 }
 }
