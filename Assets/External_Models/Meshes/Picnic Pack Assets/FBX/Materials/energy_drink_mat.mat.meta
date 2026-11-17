@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: a803d82e873ef8a4489b5d60b575db43
+timeCreated: 1454551778
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/energy_drink_mat.mat
+  uploadId: 106448

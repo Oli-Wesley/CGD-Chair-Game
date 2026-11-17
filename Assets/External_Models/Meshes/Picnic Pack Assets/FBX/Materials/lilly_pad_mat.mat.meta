@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4f9365866198a064e887389dd9fefdb2
+timeCreated: 1457279503
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/lilly_pad_mat.mat
+  uploadId: 106448

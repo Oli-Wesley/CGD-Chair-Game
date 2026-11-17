@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5f5e7e7b24a48ae4a8d0805c6b27f9b3
+timeCreated: 1457279467
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/stone_mat.mat
+  uploadId: 106448

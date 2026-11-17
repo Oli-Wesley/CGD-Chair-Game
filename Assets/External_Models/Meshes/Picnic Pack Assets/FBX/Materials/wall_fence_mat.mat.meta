@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: b76c51565db3e654f934a8bd793358c5
+timeCreated: 1457279468
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/wall_fence_mat.mat
+  uploadId: 106448

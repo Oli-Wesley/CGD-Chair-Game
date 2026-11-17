@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4b0f90f6eae5c864d972b99698ac2b36
+timeCreated: 1457276701
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/donut_mat.mat
+  uploadId: 106448

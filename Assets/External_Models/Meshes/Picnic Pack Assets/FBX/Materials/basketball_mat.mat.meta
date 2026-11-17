@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5bc2cef5b1ae63340bdcb07f1cf7f04a
+timeCreated: 1457276344
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/basketball_mat.mat
+  uploadId: 106448

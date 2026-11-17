@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1005cf7bc21ab84449fcdc98ea57e6fa
+timeCreated: 1457277164
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/cookie_jar_glass_mat.mat
+  uploadId: 106448

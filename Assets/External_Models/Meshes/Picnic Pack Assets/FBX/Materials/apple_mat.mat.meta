@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: d33977f78f67a7f4596c7f50f74aa99f
+timeCreated: 1457277128
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/apple_mat.mat
+  uploadId: 106448

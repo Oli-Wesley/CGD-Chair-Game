@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 9e58151cad9ff834e85c9e4aaf431a84
+timeCreated: 1454550812
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/bubble_gum_mat.mat
+  uploadId: 106448

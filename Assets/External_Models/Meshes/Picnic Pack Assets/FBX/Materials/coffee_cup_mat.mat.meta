@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c5229b057d1d0f34799bc70d172163c4
+timeCreated: 1454550897
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/coffee_cup_mat.mat
+  uploadId: 106448

@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: acd9e8197263900409a2b9cb601c1314
+timeCreated: 1454551041
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/Garfo_mat.mat
+  uploadId: 106448

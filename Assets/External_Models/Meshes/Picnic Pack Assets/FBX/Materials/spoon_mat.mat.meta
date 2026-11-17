@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 5aa7495061eb9444e896e8e359835762
+timeCreated: 1454551041
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/spoon_mat.mat
+  uploadId: 106448

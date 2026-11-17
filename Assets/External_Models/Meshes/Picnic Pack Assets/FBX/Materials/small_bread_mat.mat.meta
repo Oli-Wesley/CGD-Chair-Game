@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 08fc2469776e1194998b9bbcf1b870fe
+timeCreated: 1457275883
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/small_bread_mat.mat
+  uploadId: 106448

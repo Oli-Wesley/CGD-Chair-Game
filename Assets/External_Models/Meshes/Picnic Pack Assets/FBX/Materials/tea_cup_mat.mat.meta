@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ba5d398d85bf8c5469f4eec2b92a9649
+timeCreated: 1454550748
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/tea_cup_mat.mat
+  uploadId: 106448

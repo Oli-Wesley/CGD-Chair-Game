@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 471a79f187f12354cb5736bf37f26fc0
+timeCreated: 1457276701
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 5459
+  packageName: Cartoon Picnic Pack
+  packageVersion: 1.0
+  assetPath: Assets/Meshes/Picnic Pack Assets/FBX/Materials/chocolate_bar_mat.mat
+  uploadId: 106448
