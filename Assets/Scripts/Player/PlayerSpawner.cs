@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
-using InteractionTypes;
+using Unity.AppUI.UI;
+using UnityEngine.Serialization;
 
 namespace Player
 {
@@ -21,11 +22,14 @@ namespace Player
         [SerializeField] private int maxPlayers = 4;
         
         [Header("UI")]
+        [SerializeField] private UnityEngine.UI.Button playButton;
         [SerializeField] private PlayerStatusUI playerStatusUI;
+
         
         private readonly List<PlayerManager> _players  = new List<PlayerManager>();
         private int _mplayerCount = 0;
 
+        //TODO: handle on player leave, currently if a controller disconnects everything breaks.
         public void OnPlayerJoined(PlayerInput playerInput)
         {
             // check if we have already reached the maximum player limit
@@ -65,6 +69,12 @@ namespace Player
             _mplayerCount++;
             playerManager.setPlayerActive(false);
             print("Player joined" + _mplayerCount);
+            
+            //TODO: manage this on the button itself (or some UI manager), once again alpha jank. 
+            if (_mplayerCount == maxPlayers)
+            {
+                playButton.interactable = true;
+            }
             return;
         }
 
