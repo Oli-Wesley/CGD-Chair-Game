@@ -323,11 +323,7 @@ namespace Interaction
 
         public void resetInventory()
         {
-            foreach (KeyValuePair<GameObject, RubbishType> pair in _playerInventory)
-            {
-                _playerInventory.Remove(pair.Key);
-               Destroy(pair.Key); 
-            }
+            _playerInventory = new Dictionary<GameObject, RubbishType>();
             
             _rubbishPickedUp = 0;
             _rubbishStolenFromPlayer = 0;

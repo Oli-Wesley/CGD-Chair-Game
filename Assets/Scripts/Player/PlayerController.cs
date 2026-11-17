@@ -92,6 +92,11 @@ public class PlayerController : MonoBehaviour
     // Movement Logic
     private void FixedUpdate()
     {
+            //TODO: spawn script disable this script too, alpha jank once more 
+        if (_rb.isKinematic)
+        {
+            return;
+        }
         // // thanks random online tutorial :D
         // Vector3 flatFacing = Vector3.ProjectOnPlane(_movingDirection, Vector3.up).normalized;
         // if (flatFacing.sqrMagnitude > 0.0001f)
@@ -117,6 +122,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //TODO: spawn script disable this script too, alpha jank once more 
+        if (_rb.isKinematic)
+        {
+            return;
+        }
         UpdateGroundState();
         
         // input check for _pushAction

@@ -10275,7 +10275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: maxSpawnRadius
-      value: 1.7
+      value: 2.4
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: minSpawnAmount
@@ -10283,7 +10283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: minSpawnRadius
-      value: 2.4
+      value: 1.7
       objectReference: {fileID: 0}
     - target: {fileID: 244356469376036875, guid: 87665a32ea7794371b416eb49a63d244, type: 3}
       propertyPath: maxSpawnFrequency

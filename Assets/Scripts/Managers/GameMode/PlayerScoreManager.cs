@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using InteractionTypes;
 using Interaction;
+using System.Threading;
 
 public class PlayerScoreManager : MonoBehaviour
 {
@@ -97,13 +98,13 @@ public class PlayerScoreManager : MonoBehaviour
     public void ResetAllScores()
     {
         _playerScores.Clear();
-
+        int count = 0;
         foreach (var slot in availableUiSlots)
         {
             if (slot != null)
             {
-                slot.gameObject.SetActive(false);
-                slot.text = string.Empty;
+                //slot.gameObject.SetActive(false);
+                UpdateUIText(count++);
             }
         }
     }

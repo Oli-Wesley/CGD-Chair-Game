@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
+using InteractionTypes;
 
 namespace Player
 {
@@ -66,6 +67,14 @@ namespace Player
             foreach (var player in _players)
             {
                 player.SpawnPlayer();
+            }
+
+            //TODO: Move this to the rubbish pool, jank fix for alpha
+            var rubbish = GameObject.Find("@ RubbishParent").transform;
+            int count = 0;
+            while (rubbish.childCount != 0)
+            {
+                Destroy(rubbish.GetChild(count++).gameObject);
             }
         }
 
