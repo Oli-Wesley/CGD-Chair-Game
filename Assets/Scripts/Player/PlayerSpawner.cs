@@ -19,6 +19,10 @@ namespace Player
         [Header("PLAYER LIMITS")]
         // num of max players
         [SerializeField] private int maxPlayers = 4;
+        
+        [Header("UI")]
+        [SerializeField] private PlayerStatusUI playerStatusUI;
+        
         private readonly List<PlayerManager> _players  = new List<PlayerManager>();
         private int _mplayerCount = 0;
 
@@ -53,7 +57,10 @@ namespace Player
                 scoreManager.RegisterPlayer(_mplayerCount);
             }
 
-            // OR HERE SIGNAL SOME UI STUFF?
+            if (playerStatusUI != null)
+            {
+                playerStatusUI.UpdatePlayerStatusUI(_mplayerCount);
+            }  
             
             _mplayerCount++;
             playerManager.setPlayerActive(false);
