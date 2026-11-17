@@ -31,8 +31,10 @@ public class GameStateManager : MonoBehaviour
     private Coroutine _currentTransition;
     private GameState _targetState;
 
-    [Header("SCORE MANAGER REFERENCE")]
+    [Header("REFERENCES")]
+    [SerializeField] private GameModeManager gameModeManager;
     [SerializeField] private PlayerScoreManager scoreManager;
+    [SerializeField] private SceneLoader sceneLoader;
 
     private void Awake()
     {
@@ -102,7 +104,7 @@ public class GameStateManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 Time.timeScale = 1;
-// scoreManager.ResetAllScores();
+                RestartGame();
                 _safeToSetActive(PlayUi, true);
                 // SWITCH MUSIC HERE?
                 break;
@@ -139,6 +141,38 @@ public class GameStateManager : MonoBehaviour
         if (uiElement != null)
         {
             uiElement.SetActive(state);
+        }
+    }
+    public void RestartGame()
+    {
+        // RESET WIN
+        if (gameModeManager == null)
+        {
+            gameModeManager = FindAnyObjectByType<GameModeManager>();
+        }
+        if (gameModeManager != null)
+        {
+            gameModeManager.ResetGameMode();
+        }
+
+        // WIPE SCORES
+        if (scoreManager == null)
+        {
+            scoreManager = FindAnyObjectByType<PlayerScoreManager>();
+        }
+        if (scoreManager != null)
+        {
+            scoreManager.ResetAllScores();
+        }
+
+        // RESET MAP
+        if (sceneLoader == null)
+        {
+            sceneLoader = FindAnyObjectByType<SceneLoader>();
+        }
+        if (sceneLoader != null)
+        {
+            sceneLoader.UnloadAndReloadScene();
         }
     }
 
