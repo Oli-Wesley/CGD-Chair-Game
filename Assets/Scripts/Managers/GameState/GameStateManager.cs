@@ -10,6 +10,7 @@ public enum GameState
     Playing,
     Pause,
     GameOver,
+    Quit,
 }
 
 public class GameStateManager : MonoBehaviour
@@ -29,6 +30,11 @@ public class GameStateManager : MonoBehaviour
     // TRACK TRANSITIONS TO PREVENT OVERLAPPING COROUTINES AND SPAM
     private Coroutine _currentTransition;
     private GameState _targetState;
+
+    [Header("REFERENCES")]
+    [SerializeField] private GameModeManager gameModeManager;
+    [SerializeField] private PlayerScoreManager scoreManager;
+    [SerializeField] private SceneLoader sceneLoader;
 
     private void Awake()
     {
@@ -98,6 +104,7 @@ public class GameStateManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 Time.timeScale = 1;
+                RestartGame();
                 _safeToSetActive(PlayUi, true);
                 // SWITCH MUSIC HERE?
                 break;
@@ -109,6 +116,11 @@ public class GameStateManager : MonoBehaviour
             case GameState.GameOver:
                 Time.timeScale = 0;
                 _safeToSetActive(GameOverUi, true);
+                // SWITCH MUSIC HERE?
+                break;
+            case GameState.Quit:
+                Application.Quit();
+                UnityEditor.EditorApplication.isPlaying = false;
                 // SWITCH MUSIC HERE?
                 break;
         }
@@ -129,6 +141,38 @@ public class GameStateManager : MonoBehaviour
         if (uiElement != null)
         {
             uiElement.SetActive(state);
+        }
+    }
+    public void RestartGame()
+    {
+        // RESET WIN
+        if (gameModeManager == null)
+        {
+            gameModeManager = FindAnyObjectByType<GameModeManager>();
+        }
+        if (gameModeManager != null)
+        {
+            gameModeManager.ResetGameMode();
+        }
+
+        // WIPE SCORES
+        if (scoreManager == null)
+        {
+            scoreManager = FindAnyObjectByType<PlayerScoreManager>();
+        }
+        if (scoreManager != null)
+        {
+            scoreManager.ResetAllScores();
+        }
+
+        // RESET MAP
+        if (sceneLoader == null)
+        {
+            sceneLoader = FindAnyObjectByType<SceneLoader>();
+        }
+        if (sceneLoader != null)
+        {
+            sceneLoader.UnloadAndReloadScene();
         }
     }
 
@@ -173,5 +217,9 @@ public class GameStateManager : MonoBehaviour
     public void changeToGameOver()
     {
         changeState(GameState.GameOver);
+    }
+    public void changeToQuit()
+    {
+        changeState(GameState.Quit);
     }
 }

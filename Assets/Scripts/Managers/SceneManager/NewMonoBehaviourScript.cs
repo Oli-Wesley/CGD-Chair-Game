@@ -1,8 +1,6 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-
-// QUICK AND DIRTY - ADD A SCENE TO THE EXISITNG GAME MANAGER SCENE
 
 public class SceneLoader : MonoBehaviour
 {
@@ -12,8 +10,7 @@ public class SceneLoader : MonoBehaviour
     private void Start()
     {
         // CALLING STRAIGHT AWAY FOR DEBUG
-        // CALL THIS IN ANOTHER SCRIPT LIKE UI FUNCTION
-        LoadSceneAdditively();
+        // LoadSceneAdditively();
     }
 
     public void LoadSceneAdditively()
@@ -26,7 +23,7 @@ public class SceneLoader : MonoBehaviour
 
         // ALREADY LOADED CHECK
         Scene scene = SceneManager.GetSceneByName(sceneToLoad);
-        if (!scene.isLoaded)
+        if (!scene.IsValid() || !scene.isLoaded)
         {
             Debug.Log($"Triggering additive load for: {sceneToLoad}");
             SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
@@ -35,5 +32,35 @@ public class SceneLoader : MonoBehaviour
         {
             Debug.LogWarning($"Scene '{sceneToLoad}' is already loaded");
         }
+    }
+
+    // PUBLIC METHOD TO UNLOAD (DELETE) AND RELOAD THE ADDITIVE SCENE
+    public void UnloadAndReloadScene()
+    {
+        StartCoroutine(UnloadAndReloadRoutine());
+    }
+
+    private IEnumerator UnloadAndReloadRoutine()
+    {
+        Scene scene = SceneManager.GetSceneByName(sceneToLoad);
+
+        // UNLOAD IF LOADED
+        if (scene.IsValid() && scene.isLoaded)
+        {
+            Debug.Log($"Unloading additive scene: {sceneToLoad}");
+            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(sceneToLoad);
+
+            if (unloadOperation != null)
+            {
+                yield return unloadOperation;
+            }
+        }
+
+        yield return null;
+
+        // RELOAD FRESH
+        Debug.Log($"Reloading additive scene: {sceneToLoad}");
+        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+        yield return loadOperation;
     }
 }

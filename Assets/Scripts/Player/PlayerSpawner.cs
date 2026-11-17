@@ -44,6 +44,13 @@ namespace Player
                 targetGroup.AddMember(playerInput.transform, playerWeight, playerRadius);
             }
 
+            //SCOREMANAGER
+            PlayerScoreManager scoreManager = FindAnyObjectByType<PlayerScoreManager>();
+            if (scoreManager != null)
+            {
+                scoreManager.RegisterPlayer(_mplayerCount);
+            }
+
             // OR HERE SIGNAL SOME UI STUFF?
             print("spawned Player " + _mplayerCount);
             _mplayerCount++;

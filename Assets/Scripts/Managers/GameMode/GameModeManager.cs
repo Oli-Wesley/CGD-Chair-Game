@@ -8,11 +8,13 @@ public class GameModeManager : MonoBehaviour
     [Header("Win Conditions")]
     public List<WinCondition> winConditionsList = new List<WinCondition>();
     public GameStateManager gameStateManager;
+
     [Header("UI Elements")]
     public TextMeshProUGUI timerText;
 
     // CREATE A PLAY THROUGH CLONE OF EACH CONDITION TO PREVENT OVERWRITING BASE OBJECT VARIABLES (TIME LEFT)
     private List<WinCondition> _activeConditions = new List<WinCondition>();
+
     // PRESET GAME OVER TO FALSE
     private bool _isGameOver = false;
 
@@ -22,9 +24,33 @@ public class GameModeManager : MonoBehaviour
 
     private void Start()
     {
-        // CLEAR ANY PREVIOUS ACTIVE CONDITIONS - NEW PLAY THROUGH
+        InitializeGameMode();
+    }
+
+    // RESET OBJECTIVES AND RESTART
+    public void ResetGameMode()
+    {
+        // DESTROY OLD RUNTIME CLONES
+        foreach (var condition in _activeConditions)
+        {
+            if (condition != null)
+            {
+                Destroy(condition);
+            }
+        }
         _activeConditions.Clear();
 
+        // RESET STATE
+        _isGameOver = false;
+        _activeTimedPlay = null;
+        isTimedGame = true;
+
+        // FRESH CONDITIONS
+        InitializeGameMode();
+    }
+
+    private void InitializeGameMode()
+    {
         // LOOP THE CONDITIONASSETS ARRAY
         foreach (var winCondition in winConditionsList)
         {
@@ -32,8 +58,10 @@ public class GameModeManager : MonoBehaviour
             {
                 WinCondition instance = Instantiate(winCondition);
                 instance.initialize();
+
                 // ADD TO THE ACTIVE CONDITIONS ARRAY
                 _activeConditions.Add(instance);
+
                 // CHECK IF THIS CLONED INSTANCE IS A TIMED PLAY CONDITION
                 if (instance is TimedPlay timedPlayInstance)
                 {
@@ -88,7 +116,6 @@ public class GameModeManager : MonoBehaviour
         _isGameOver = true;
         Debug.Log("All conditions met! Ending game...");
 
-
         // TIMER TEXT END
         if (timerText != null)
         {
@@ -101,5 +128,4 @@ public class GameModeManager : MonoBehaviour
             GameStateManager.instance.changeToGameOver();
         }
     }
-
 }
