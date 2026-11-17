@@ -1,6 +1,8 @@
 using System.Collections;
+using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.VisualScripting;
 
 public enum GameState
 {
@@ -17,15 +19,25 @@ public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager instance;
 
+    [Header("UI References")]
     public GameObject MainMenuUi;
     public GameObject PlayerSelectUi;
     public GameObject PlayUi;
     public GameObject PauseUi;
     public GameObject GameOverUi;
 
+   
     public GameState currentState { get; private set; }
     // TRANSITION DELAY - CAN BE CHANGED
     public int delay = 1;
+
+    [Header("Jank Button Fix")]
+    public Button GameOverMenuButton;
+    public Button GameOverQuitButton;
+
+    [Tooltip("Time in Seconds")]
+    public float EnableDelay = 5.0f;
+
 
     // TRACK TRANSITIONS TO PREVENT OVERLAPPING COROUTINES AND SPAM
     private Coroutine _currentTransition;
@@ -114,15 +126,44 @@ public class GameStateManager : MonoBehaviour
                 // SWITCH MUSIC HERE?
                 break;
             case GameState.GameOver:
+                handleButtons();
                 Time.timeScale = 0;
                 _safeToSetActive(GameOverUi, true);
                 // SWITCH MUSIC HERE?
                 break;
             case GameState.Quit:
-                Application.Quit();
+#if UNITY_EDITOR
                 UnityEditor.EditorApplication.isPlaying = false;
+#else
+                Application.Quit();
+#endif
                 // SWITCH MUSIC HERE?
                 break;
+        }
+    }
+
+    private void handleButtons()
+    {
+        if (GameOverMenuButton != null && GameOverQuitButton != null)
+        {
+            GameOverMenuButton.interactable = false;
+            GameOverQuitButton.interactable = false;
+
+            StartCoroutine(EnableButtonsAfterDelay());
+        }
+    }
+
+    private IEnumerator EnableButtonsAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(EnableDelay);
+
+        if (GameOverMenuButton != null && GameOverQuitButton != null)
+        {
+            GameOverMenuButton.interactable = true;
+            GameOverQuitButton.interactable = true;
+        } else
+        {
+            yield break;
         }
     }
 
