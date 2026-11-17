@@ -10,6 +10,7 @@ public enum GameState
     Playing,
     Pause,
     GameOver,
+    Quit,
 }
 
 public class GameStateManager : MonoBehaviour
@@ -29,6 +30,9 @@ public class GameStateManager : MonoBehaviour
     // TRACK TRANSITIONS TO PREVENT OVERLAPPING COROUTINES AND SPAM
     private Coroutine _currentTransition;
     private GameState _targetState;
+
+    [Header("SCORE MANAGER REFERENCE")]
+    [SerializeField] private PlayerScoreManager scoreManager;
 
     private void Awake()
     {
@@ -98,6 +102,7 @@ public class GameStateManager : MonoBehaviour
                 break;
             case GameState.Playing:
                 Time.timeScale = 1;
+// scoreManager.ResetAllScores();
                 _safeToSetActive(PlayUi, true);
                 // SWITCH MUSIC HERE?
                 break;
@@ -109,6 +114,11 @@ public class GameStateManager : MonoBehaviour
             case GameState.GameOver:
                 Time.timeScale = 0;
                 _safeToSetActive(GameOverUi, true);
+                // SWITCH MUSIC HERE?
+                break;
+            case GameState.Quit:
+                Application.Quit();
+                UnityEditor.EditorApplication.isPlaying = false;
                 // SWITCH MUSIC HERE?
                 break;
         }
@@ -173,5 +183,9 @@ public class GameStateManager : MonoBehaviour
     public void changeToGameOver()
     {
         changeState(GameState.GameOver);
+    }
+    public void changeToQuit()
+    {
+        changeState(GameState.Quit);
     }
 }
