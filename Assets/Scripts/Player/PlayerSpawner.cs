@@ -24,6 +24,7 @@ namespace Player
         [SerializeField] private int maxPlayers = 4;
         
         [Header("UI")]
+        [SerializeField] private bool willDisablePlayButton = true;
         [SerializeField] private UnityEngine.UI.Button playButton;
         [SerializeField] private PlayerStatusUI playerStatusUI;
 
@@ -78,7 +79,7 @@ namespace Player
             print("Player joined" + _mplayerCount);
             
             //TODO: manage this on the button itself (or some UI manager), once again alpha jank. 
-            if (_mplayerCount == maxPlayers)
+            if (_mplayerCount == maxPlayers || !willDisablePlayButton)
             {
                 playButton.interactable = true;
             }
