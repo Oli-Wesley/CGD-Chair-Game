@@ -1545,6 +1545,7 @@ MonoBehaviour:
   maxPlayers: 4
   playButton: {fileID: 1618827676}
   playerStatusUI: {fileID: 916911044}
+  _winnerCrownPrefab: {fileID: 3142895185693387411, guid: 29e4e9ce812bf2e4dad439e8cc91db7c, type: 3}
 --- !u!114 &1533352186
 MonoBehaviour:
   m_ObjectHideFlags: 0
