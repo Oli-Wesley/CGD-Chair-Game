@@ -11,7 +11,7 @@ public class SceneInfo : MonoBehaviour
     
     // [SerializeField] public SUPPORTEDGAMEMODES supportedModes;
     
-    [SerializeField] private GameObject[] respawns;
+    private GameObject[] respawns;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
@@ -21,7 +21,9 @@ public class SceneInfo : MonoBehaviour
 
     private void OnDestroy()
     {
-        FindFirstObjectByType<PlayerSpawner>().deSpawnAllPlayers();
+        var spawner = FindFirstObjectByType<PlayerSpawner>();
+        if (spawner)
+           spawner.deSpawnAllPlayers();
     }
 
     public Transform getNearestSpawnPoint(Transform targetPosition)

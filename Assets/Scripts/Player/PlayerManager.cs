@@ -12,8 +12,7 @@ public class PlayerManager : MonoBehaviour
     public Color playerColor;
     private SceneInfo scene_info;
     private CinemachineTargetGroup  m_targetGroup;
-
-
+    private InteractionManager m_interactionManager;
     
     public void SpawnPlayer()
     {
@@ -94,6 +93,14 @@ public class PlayerManager : MonoBehaviour
         }
 
         if (TryGetComponent(out InteractionManager im)) im.enabled = active;
+    }
+
+    public int getPlayerScore()
+    {
+        //TODO: this will need changing when we refactor the interaction manager stuff. this is just a nice location to get all the information from the player for UI and the such.
+        if (!m_interactionManager)
+            m_interactionManager = gameObject.GetComponent<InteractionManager>();
+        return m_interactionManager.GetTotalRubbishDroppedOff();
     }
 }
 }

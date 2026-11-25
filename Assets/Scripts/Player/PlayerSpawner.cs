@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
@@ -99,6 +100,19 @@ namespace Player
         {
             foreach (var player in _players)
                 player.setPlayerActive(false); 
+        }
+
+        // Return players in join order.
+        public List<PlayerManager> GetAllPlayers()
+        {
+            return _players;
+        }
+
+
+        // Return All players in order with the highest score first (ties are not handled here)
+        public List<PlayerManager> getAllPlayersInScoreOrder() 
+        {
+            return _players.OrderByDescending(p => p.getPlayerScore()).ToList();
         }
     }
 }
