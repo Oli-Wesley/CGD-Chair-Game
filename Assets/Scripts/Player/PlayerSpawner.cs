@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.Cinemachine;
 using Unity.AppUI.UI;
+using UnityEditor;
 using UnityEngine.Serialization;
 
 namespace Player
@@ -26,6 +27,11 @@ namespace Player
         [SerializeField] private UnityEngine.UI.Button playButton;
         [SerializeField] private PlayerStatusUI playerStatusUI;
 
+        
+        [Header("Other")]
+        [SerializeField] private CrownController _winnerCrownPrefab = null;
+
+        private CrownController _crownController = null;
         
         private readonly List<PlayerManager> _players  = new List<PlayerManager>();
         private int _mplayerCount = 0;
@@ -81,13 +87,18 @@ namespace Player
 
         public void spawnAllPlayers()
         {
+            // TODO: move to the central manger at some point, aswell as managing it. here for now as this is handy. 
+            if (!_crownController)
+                _crownController = Instantiate(_winnerCrownPrefab);
+            
+            _crownController.Activate();
             print("Spawning all players (" + _players.Count + ")");
             foreach (var player in _players)
             {
                 player.SpawnPlayer();
             }
 
-            //TODO: Move this to the rubbish pool, jank fix for alpha
+            //TODO: Move this to the rubbish pool, jank fix for alpha 
             var rubbish = GameObject.Find("@ RubbishParent").transform;
             int count = 0;
             while (rubbish.childCount != 0)
@@ -98,6 +109,7 @@ namespace Player
 
         public void deSpawnAllPlayers()
         {
+            _crownController.Reset();
             foreach (var player in _players)
                 player.setPlayerActive(false); 
         }
@@ -110,6 +122,7 @@ namespace Player
 
 
         // Return All players in order with the highest score first (ties are not handled here)
+        // ReSharper disable Unity.PerformanceAnalysis
         public List<PlayerManager> getAllPlayersInScoreOrder() 
         {
             return _players.OrderByDescending(p => p.getPlayerScore()).ToList();
