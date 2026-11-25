@@ -34,12 +34,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float pushCooldown = 1f;
     [SerializeField] private Color cooldownColor = Color.red;
 
+    [Header("Other")] [SerializeField] private float respawnHoldTime = 0.75f;
+
     // References set up in Awake()
     private GameObject _characterModel;
     private Rigidbody _rb;
     private PlayerInput _playerInput;
+    private PlayerManager _playerManager;
     private InputAction _moveAction;
     private InputAction _pushAction;
+    private InputAction _respawnAction;
     private ParticleSystem _driftParticles;
     private ParticleSystem _dashParticles;
     private Material _modelMaterial;
@@ -51,24 +55,24 @@ public class PlayerController : MonoBehaviour
     private Vector3 _smoothedUp = Vector3.up;           // used to tilt the model
     private bool _grounded = true;
     private float _nextPushTime;
+    private float _respawnHoldTime;
     
     private Vector3 _movingDirection = Vector3.zero;
     private Vector3 _flatVel = Vector3.zero;
 
     private bool PushOnCooldown => Time.time < _nextPushTime;
-
-
     
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
         _playerInput = GetComponent<PlayerInput>(); 
+        _playerManager = GetComponent<PlayerManager>();
     }
 
     private void Start()
     {
         _characterModel = transform.Find("Player Model").gameObject;
-
+        
         _driftParticles = _characterModel.transform.Find("DriftParticles").gameObject.GetComponent<ParticleSystem>();
         _dashParticles = _characterModel.transform.Find("DashParticles").gameObject.GetComponent<ParticleSystem>();
         _driftParticles.Stop();
@@ -76,7 +80,8 @@ public class PlayerController : MonoBehaviour
         
         _moveAction = _playerInput.actions["Move"];
         _pushAction = _playerInput.actions["Push"];
-
+        _respawnAction = _playerInput.actions["Respawn"];
+        
         // MeshRenderer on purpose: GetComponentInChildren<Renderer> could grab the particle renderer.
         // Use SkinnedMeshRenderer instead if the chair model is rigged.
         MeshRenderer meshRenderer = _characterModel.GetComponentInChildren<MeshRenderer>();
@@ -92,7 +97,7 @@ public class PlayerController : MonoBehaviour
     // Movement Logic
     private void FixedUpdate()
     {
-            //TODO: spawn script disable this script too, alpha jank once more 
+        // if the rigidbody isn't kinematic, the player is disabled by the spawning script, so can just return.
         if (_rb.isKinematic)
         {
             return;
@@ -122,7 +127,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        //TODO: spawn script disable this script too, alpha jank once more 
+        // if the rigidbody isnt kinematic, the player is disabled by the spawning script, so can just return.
         if (_rb.isKinematic)
         {
             return;
@@ -134,10 +139,25 @@ public class PlayerController : MonoBehaviour
         {
             Push();
         }
-        
         UpdateFacing();
         UpdateDriftParticles();
         UpdatePushTint();
+        
+        
+        if (_respawnAction.IsPressed() && _respawnHoldTime!= -1)
+        {
+            _respawnHoldTime += Time.deltaTime;
+            if (_respawnHoldTime >= respawnHoldTime)
+            {
+                _playerManager.RespawnPlayer();
+                _respawnHoldTime = -1;
+            }
+                
+        }
+        else if (_respawnAction.WasReleasedThisFrame())
+        {
+            _respawnHoldTime = 0;
+        }
     }
 
     private void Push()

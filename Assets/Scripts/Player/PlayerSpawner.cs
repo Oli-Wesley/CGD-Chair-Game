@@ -90,8 +90,6 @@ namespace Player
             // TODO: move to the central manger at some point, aswell as managing it. here for now as this is handy. 
             if (!_crownController)
                 _crownController = Instantiate(_winnerCrownPrefab);
-            
-            _crownController.Activate();
             print("Spawning all players (" + _players.Count + ")");
             foreach (var player in _players)
             {
@@ -109,7 +107,6 @@ namespace Player
 
         public void deSpawnAllPlayers()
         {
-            _crownController.Reset();
             foreach (var player in _players)
                 player.setPlayerActive(false); 
         }
@@ -122,7 +119,6 @@ namespace Player
 
 
         // Return All players in order with the highest score first (ties are not handled here)
-        // ReSharper disable Unity.PerformanceAnalysis
         public List<PlayerManager> getAllPlayersInScoreOrder() 
         {
             return _players.OrderByDescending(p => p.getPlayerScore()).ToList();
