@@ -24,6 +24,7 @@ namespace Player
         [SerializeField] private int maxPlayers = 4;
         
         [Header("UI")]
+        [SerializeField] private bool willDisablePlayButton = true;
         [SerializeField] private UnityEngine.UI.Button playButton;
         [SerializeField] private PlayerStatusUI playerStatusUI;
 
@@ -78,7 +79,7 @@ namespace Player
             print("Player joined" + _mplayerCount);
             
             //TODO: manage this on the button itself (or some UI manager), once again alpha jank. 
-            if (_mplayerCount == maxPlayers)
+            if (_mplayerCount == maxPlayers || !willDisablePlayButton)
             {
                 playButton.interactable = true;
             }
@@ -90,8 +91,6 @@ namespace Player
             // TODO: move to the central manger at some point, aswell as managing it. here for now as this is handy. 
             if (!_crownController)
                 _crownController = Instantiate(_winnerCrownPrefab);
-            
-            _crownController.Activate();
             print("Spawning all players (" + _players.Count + ")");
             foreach (var player in _players)
             {
@@ -109,7 +108,6 @@ namespace Player
 
         public void deSpawnAllPlayers()
         {
-            _crownController.Reset();
             foreach (var player in _players)
                 player.setPlayerActive(false); 
         }
@@ -122,7 +120,6 @@ namespace Player
 
 
         // Return All players in order with the highest score first (ties are not handled here)
-        // ReSharper disable Unity.PerformanceAnalysis
         public List<PlayerManager> getAllPlayersInScoreOrder() 
         {
             return _players.OrderByDescending(p => p.getPlayerScore()).ToList();

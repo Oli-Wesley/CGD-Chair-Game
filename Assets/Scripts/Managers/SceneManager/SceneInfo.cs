@@ -30,12 +30,12 @@ public class SceneInfo : MonoBehaviour
     {
         Transform current_shortest = null;
         var shortestDistance = float.MaxValue;
-        foreach (var g in spawnPoints)
+        foreach (var g in respawns)
         {
             if (g == null) continue; 
             var dist = Vector3.Distance(targetPosition.position, g.transform.position);
             if (!(dist < shortestDistance)) continue;
-            current_shortest = g;
+            current_shortest = g.transform;
             shortestDistance = dist;
         }
         return current_shortest;

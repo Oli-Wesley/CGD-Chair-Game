@@ -1543,6 +1543,7 @@ MonoBehaviour:
   playerWeight: 1
   playerRadius: 1
   maxPlayers: 4
+  willDisablePlayButton: 0
   playButton: {fileID: 1618827676}
   playerStatusUI: {fileID: 916911044}
   _winnerCrownPrefab: {fileID: 3142895185693387411, guid: 29e4e9ce812bf2e4dad439e8cc91db7c, type: 3}
@@ -1559,7 +1560,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.PlayerInputManager
   m_NotificationBehavior: 0
-  m_MaxPlayerCount: 4
+  m_MaxPlayerCount: 2
   m_AllowJoining: 1
   m_JoinBehavior: 1
   m_PlayerJoinedEvent:
