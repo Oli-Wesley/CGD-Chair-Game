@@ -74,7 +74,6 @@ public class PlayerCollisionManager : MonoBehaviour
         _lastHitTime = Time.time;
         
         List<GameObject> dropped = interactionManager.RemoveFromInventory(removalAmount);
-        print(dropped.Count);
         
         if (dropped.Count > 0) dropSpawner.EjectObjects(dropped);
     }

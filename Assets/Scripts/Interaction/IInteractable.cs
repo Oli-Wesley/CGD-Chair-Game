@@ -13,11 +13,20 @@ namespace Interaction
         private void Awake() => UpdateRubbishColour();
         private void OnValidate() => UpdateRubbishColour();
 
+        private static readonly int ColorId = Shader.PropertyToID("_Color");
+        private MaterialPropertyBlock mpb;
+        private Renderer renderer; 
+
         public void UpdateRubbishColour()
         {
-            Renderer renderer = gameObject.GetComponent<Renderer>();
-            Color colour = RubbishHelper.GetColourForRubbishType(rubbishType);
-            renderer.sharedMaterial.SetColor("_Color", colour);
+            renderer ??= GetComponent<Renderer>();
+            mpb ??= new MaterialPropertyBlock();
+            
+            var colour = RubbishHelper.GetColourForRubbishType(rubbishType);
+            
+            renderer.GetPropertyBlock(mpb);
+            mpb.SetColor(ColorId, colour);
+            renderer.SetPropertyBlock(mpb);
         }
     } 
 }
