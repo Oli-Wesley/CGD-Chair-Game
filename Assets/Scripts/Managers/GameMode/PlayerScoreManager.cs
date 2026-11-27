@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using InteractionTypes;
@@ -16,9 +17,9 @@ public class PlayerScoreManager : MonoBehaviour
     private void Awake()
     {
         // HIDE UI UNTIL PLAYERS JOIN
-        foreach (var slot in availableUiSlots)
+        foreach (var slot in availableUiSlots.Where(slot => slot != null))
         {
-            if (slot != null) slot.gameObject.SetActive(false);
+            slot.gameObject.SetActive(false);
         }
     }
 
@@ -42,10 +43,7 @@ public class PlayerScoreManager : MonoBehaviour
             if (slot != null && !slot.gameObject.activeSelf)
             {
                 slot.gameObject.SetActive(true);
-                if (!_playerScores.ContainsKey(playerID))
-                {
-                    _playerScores[playerID] = initialScore;
-                }
+                _playerScores.TryAdd(playerID, initialScore);
                 UpdateUIText(playerID);
             }
         }
@@ -58,10 +56,7 @@ public class PlayerScoreManager : MonoBehaviour
             RegisterPlayer(playerID);
 
             // CHECK THAT PLAYER EXISTS
-            if (!_playerScores.ContainsKey(playerID))
-            {
-                _playerScores[playerID] = 0;
-            }
+            _playerScores.TryAdd(playerID, 0);
         }
 
         _playerScores[playerID]++;
@@ -70,58 +65,44 @@ public class PlayerScoreManager : MonoBehaviour
 
     private void UpdateUIText(int playerID)
     {
-        if (playerID >= 0 && playerID < availableUiSlots.Count)
-        {
-            TextMeshProUGUI slot = availableUiSlots[playerID];
-            if (slot != null)
-            {
-                // TRY GET VALUE TO DEAL WITH ERRORS ON PLAYER ID MISS MATCH
-                int currentScore = 0;
-                _playerScores.TryGetValue(playerID, out currentScore);
+        if (playerID < 0 || playerID >= availableUiSlots.Count) return;
+        var slot = availableUiSlots[playerID];
+        if (!slot) return;
+        // TRY GET VALUE TO DEAL WITH ERRORS ON PLAYER ID MISS MATCH
+        var currentScore = 0;
+        _playerScores.TryGetValue(playerID, out currentScore);
 
-                slot.text = $"Player {playerID + 1} Score: {currentScore}";
-            }
-        }
+        slot.text = $"Player {playerID + 1} Score: {currentScore}";
     }
 
     // PUBLIC GETTER GOT UI PANEL FOR SCORES
     public int GetPlayerScore(int playerID)
     {
-        if (_playerScores.TryGetValue(playerID, out int score))
-        {
-            return score;
-        }
-        return 0; // Returns 0 if the player hasn't scored or joined yet
+        return _playerScores.GetValueOrDefault(playerID, 0); // Returns 0 if the player hasn't scored or joined yet
     }
 
     // RESET FUNCTION TO WIPE ALL SCORES
     public void ResetAllScores()
     {
         _playerScores.Clear();
-        int count = 0;
-        foreach (var slot in availableUiSlots)
+        var count = 0;
+        foreach (var slot in availableUiSlots.Where(slot => slot != null))
         {
-            if (slot != null)
-            {
-                //slot.gameObject.SetActive(false);
-                UpdateUIText(count++);
-            }
+            //slot.gameObject.SetActive(false);
+            UpdateUIText(count++);
         }
     }
 
     // RETURNS PLAYER ID OF HIGHEST SCORE PLAYER
     public int GetLeadingPlayerID()
     {
-        int leadingPlayerID = -1;
-        int highestScore = -1;
+        var leadingPlayerID = -1;
+        var highestScore = -1;
 
-        foreach (KeyValuePair<int, int> pair in _playerScores)
+        foreach (var pair in _playerScores.Where(pair => pair.Value > highestScore))
         {
-            if (pair.Value > highestScore)
-            {
-                highestScore = pair.Value;
-                leadingPlayerID = pair.Key;
-            }
+            highestScore = pair.Value;
+            leadingPlayerID = pair.Key;
         }
 
         return leadingPlayerID;

@@ -48,7 +48,7 @@ public class SceneLoader : MonoBehaviour
         if (scene.IsValid() && scene.isLoaded)
         {
             Debug.Log($"Unloading additive scene: {sceneToLoad}");
-            AsyncOperation unloadOperation = SceneManager.UnloadSceneAsync(sceneToLoad);
+            var unloadOperation = SceneManager.UnloadSceneAsync(sceneToLoad);
 
             if (unloadOperation != null)
             {
@@ -60,7 +60,7 @@ public class SceneLoader : MonoBehaviour
 
         // RELOAD FRESH
         Debug.Log($"Reloading additive scene: {sceneToLoad}");
-        AsyncOperation loadOperation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
+        var loadOperation = SceneManager.LoadSceneAsync(sceneToLoad, LoadSceneMode.Additive);
         yield return loadOperation;
     }
 }

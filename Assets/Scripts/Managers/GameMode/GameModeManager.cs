@@ -1,5 +1,6 @@
 // LIBRARY FOR ARRAYS
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -31,12 +32,9 @@ public class GameModeManager : MonoBehaviour
     public void ResetGameMode()
     {
         // DESTROY OLD RUNTIME CLONES
-        foreach (var condition in _activeConditions)
+        foreach (var condition in _activeConditions.Where(condition => condition))
         {
-            if (condition != null)
-            {
-                Destroy(condition);
-            }
+            Destroy(condition);
         }
         _activeConditions.Clear();
 
@@ -52,25 +50,21 @@ public class GameModeManager : MonoBehaviour
     private void InitializeGameMode()
     {
         // LOOP THE CONDITIONASSETS ARRAY
-        foreach (var winCondition in winConditionsList)
+        foreach (var instance in from winCondition in winConditionsList where winCondition select Instantiate(winCondition))
         {
-            if (winCondition != null)
+            instance.initialize();
+
+            // ADD TO THE ACTIVE CONDITIONS ARRAY
+            _activeConditions.Add(instance);
+
+            // CHECK IF THIS CLONED INSTANCE IS A TIMED PLAY CONDITION
+            if (instance is TimedPlay timedPlayInstance)
             {
-                WinCondition instance = Instantiate(winCondition);
-                instance.initialize();
-
-                // ADD TO THE ACTIVE CONDITIONS ARRAY
-                _activeConditions.Add(instance);
-
-                // CHECK IF THIS CLONED INSTANCE IS A TIMED PLAY CONDITION
-                if (instance is TimedPlay timedPlayInstance)
-                {
-                    _activeTimedPlay = timedPlayInstance;
-                }
-                else
-                {
-                    isTimedGame = false;
-                }
+                _activeTimedPlay = timedPlayInstance;
+            }
+            else
+            {
+                isTimedGame = false;
             }
         }
     }
@@ -79,30 +73,22 @@ public class GameModeManager : MonoBehaviour
     {
         // IF NO ACTIVE CONDITIONS OR GAME IS OVER - DO NOTHING AND RETURN
         if (_isGameOver || _activeConditions.Count == 0) return;
-
-        // UPDATE TIMER UI EVERY FRAME IF A TIMED PLAY CONDITION IS ACTIVE
+        
+        // UPDATE TIMER UI EVERY FRAME IF A TIMED PLAY CONDITION IS ACTIVE 
+        //TODO: move this to a getTimeRemaining function or smth to give that behaviour to the timer itself.
         if (isTimedGame)
         {
             if (_activeTimedPlay != null && timerText != null)
             {
-                float remainingTime = _activeTimedPlay.GetTimeRemaining();
-                int displaySeconds = Mathf.CeilToInt(remainingTime);
+                var remainingTime = _activeTimedPlay.GetTimeRemaining();
+                var displaySeconds = Mathf.CeilToInt(remainingTime);
                 timerText.text = $"Time: {displaySeconds}s";
             }
         }
 
-        bool allConditionsMet = true;
+        var allConditionsMet = _activeConditions.All(condition => condition.isConditionMet());
 
         // LOOP THROUGH EACH CONDITION
-        foreach (var condition in _activeConditions)
-        {
-            // UNLESS ALL CONDITIONS MET - CONTINUE PLAY
-            if (!condition.isConditionMet())
-            {
-                allConditionsMet = false;
-                break;
-            }
-        }
 
         // IF ALL TRUE TRIGGER STATE CHANGE
         if (allConditionsMet)
@@ -117,13 +103,13 @@ public class GameModeManager : MonoBehaviour
         Debug.Log("All conditions met! Ending game...");
 
         // TIMER TEXT END
-        if (timerText != null)
+        if (timerText)
         {
             timerText.text = "TIME IS OVER";
         }
 
         // CALLING GAME STATE MANAGER
-        if (GameStateManager.instance != null)
+        if (GameStateManager.instance)
         {
             GameStateManager.instance.changeToGameOver();
         }

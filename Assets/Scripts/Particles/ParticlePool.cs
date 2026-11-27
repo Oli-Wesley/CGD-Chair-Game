@@ -9,7 +9,7 @@ public class ParticlePool
     public ParticlePool(ParticleSystem prefab, int size)
     {
         _pool = new ParticleSystem[size];
-        for (int i = 0; i < size; i++)
+        for (var i = 0; i < size; i++)
         {
             _pool[i] = Object.Instantiate(prefab);
             _pool[i].gameObject.SetActive(false);
@@ -18,7 +18,7 @@ public class ParticlePool
 
     public void Play(Vector3 position)
     {
-        ParticleSystem ps = _pool[_next];
+        var ps = _pool[_next];
         _next = (_next + 1) % _pool.Length;
 
         ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
