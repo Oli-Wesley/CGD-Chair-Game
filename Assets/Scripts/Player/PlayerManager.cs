@@ -24,7 +24,7 @@ public class PlayerManager : MonoBehaviour
         gameObject.GetComponent<InteractionManager>().resetInventory();
         gameObject.GetComponent<PlayerController>().reset();
         
-        print("Spawned player ( " + m_playerCount + ")");
+        print("Spawned player (" + m_playerCount + ")");
 
     }
     public void RespawnPlayer()
@@ -98,8 +98,8 @@ public class PlayerManager : MonoBehaviour
     public int getPlayerScore()
     {
         //TODO: this will need changing when we refactor the interaction manager stuff. this is just a nice location to get all the information from the player for UI and the such.
-        if (!m_interactionManager)
-            m_interactionManager = gameObject.GetComponent<InteractionManager>();
+        //keep the function, but just replace how it finds the score.
+        if (!m_interactionManager) m_interactionManager = gameObject.GetComponent<InteractionManager>();
         return m_interactionManager.GetTotalRubbishDroppedOff();
     }
 }

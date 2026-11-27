@@ -24,69 +24,27 @@ namespace Player
         // UPDATE LOOP
         private void FixedUpdate()
         {
-            if (_targetGroup == null) return;
+            if (!_targetGroup) return;
+            if (_playerRigidbody.isKinematic) return;
+            var center = _targetGroup.transform.position;
+            var position = _playerRigidbody.position;
+            
+            float hw = boxWidth * 0.5f, hl = boxLength * 0.5f;
 
-            // calculate Target Group (group of players) center (mean centroid)0
-            Vector3 center = Vector3.zero;
-            int count = 0;
-            foreach (var target in _targetGroup.Targets)
-            {
-                if (target.Object != null)
-                {
-                    center += target.Object.position;
-                    count++;
-                }
-            }
-            if (count == 0) return;
-            center /= count;
+            Vector3 clamped = new Vector3(
+                Mathf.Clamp(position.x, center.x - hw, center.x + hw),
+                position.y,
+                Mathf.Clamp(position.z, center.z - hl, center.z + hl));
 
-            // get x/z offset from center (ignore y)
-            Vector3 offset = transform.position - center;
-            float halfWidth = boxWidth / 2f;
-            float halfLength = boxLength / 2f;
-
-            // flag if out of the x/z extents of our box
-            bool outOfX = Mathf.Abs(offset.x) > halfWidth;
-            bool outOfZ = Mathf.Abs(offset.z) > halfLength;
-
-            // clamp if outside extents
-            if (outOfX || outOfZ)
-            {
-                // CLAMP forces player transform back into the box
-                Vector3 clamped = center + new Vector3(
-                    Mathf.Clamp(offset.x, -halfWidth, halfWidth),
-                    0f,
-                    Mathf.Clamp(offset.z, -halfLength, halfLength)
-                );
-                // preserve the height
-                clamped.y = transform.position.y;
-
-
-                // FIX FOR MOVE/SLIDE
-                // REPLACES VELOCITY CHANGE IN ORIGINAL
-                // zero the velocity on the specific out of extents axis so the other
-                // movement is maintained causing a SLIDE
-
-                // if rigid body is found - sense check to prevent error
-                if (_playerRigidbody != null)
-                {
-                    // reposition player to clamped vector
-                    _playerRigidbody.MovePosition(clamped);
-
-                    // temporary variable to hold current velolicty
-                    Vector3 currentVelocity = _playerRigidbody.linearVelocity;
-                    // 0 out the movement on the axis if out of extents
-                    if (outOfX) currentVelocity.x = 0f;
-                    if (outOfZ) currentVelocity.z = 0f;
-                    // overwrite the velocity preserving the other axis movements
-                    _playerRigidbody.linearVelocity = currentVelocity;
-                }
-                // non physics object catch - ON WRONG OBJECT?
-                else
-                {
-                    transform.position = clamped;
-                }
-            }
+            if (clamped == position) return; // inside the box
+            
+            // stop velocity only on the axis that hit the edge, so the player slides along it
+            var v = _playerRigidbody.linearVelocity;
+            if (clamped.x != position.x) v.x = 0f;
+            if (clamped.z != position.z) v.z = 0f;
+            
+            _playerRigidbody.position = clamped;
+            _playerRigidbody.linearVelocity = v;
         }
     }
 }

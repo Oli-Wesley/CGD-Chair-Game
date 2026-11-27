@@ -5063,6 +5063,7 @@ MonoBehaviour:
   pushAmount: 40
   pushCooldown: 1
   cooldownColor: {r: 1, g: 0, b: 0, a: 1}
+  respawnHoldTime: 1.5
 --- !u!114 &4034642311794924737
 MonoBehaviour:
   m_ObjectHideFlags: 0

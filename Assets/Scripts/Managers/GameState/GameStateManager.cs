@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
@@ -20,23 +21,24 @@ public class GameStateManager : MonoBehaviour
     public static GameStateManager instance;
 
     [Header("UI References")]
-    public GameObject MainMenuUi;
-    public GameObject PlayerSelectUi;
-    public GameObject PlayUi;
-    public GameObject PauseUi;
-    public GameObject GameOverUi;
+    [SerializeField] private GameObject MainMenuUi;
+    [SerializeField] private  GameObject PlayerSelectUi;
+    [SerializeField] private  GameObject PlayUi;
+    [SerializeField] private  GameObject PauseUi;
+    [SerializeField] private  GameObject GameOverUi;
 
    
     public GameState currentState { get; private set; }
     // TRANSITION DELAY - CAN BE CHANGED
     public int delay = 1;
 
+    //TODO: unjank this.
     [Header("Jank Button Fix")]
-    public Button GameOverMenuButton;
-    public Button GameOverQuitButton;
+    [SerializeField] private  Button GameOverMenuButton;
+    [SerializeField] private  Button GameOverQuitButton;
 
     [Tooltip("Time in Seconds")]
-    public float EnableDelay = 5.0f;
+    [SerializeField] private float EnableDelay = 5.0f;
 
 
     // TRACK TRANSITIONS TO PREVENT OVERLAPPING COROUTINES AND SPAM
@@ -53,7 +55,6 @@ public class GameStateManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -139,12 +140,16 @@ public class GameStateManager : MonoBehaviour
 #endif
                 // SWITCH MUSIC HERE?
                 break;
+            case GameState.None:
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
     private void handleButtons()
     {
-        if (GameOverMenuButton != null && GameOverQuitButton != null)
+        if (GameOverMenuButton && GameOverQuitButton)
         {
             GameOverMenuButton.interactable = false;
             GameOverQuitButton.interactable = false;
@@ -157,7 +162,7 @@ public class GameStateManager : MonoBehaviour
     {
         yield return new WaitForSecondsRealtime(EnableDelay);
 
-        if (GameOverMenuButton != null && GameOverQuitButton != null)
+        if (GameOverMenuButton && GameOverQuitButton)
         {
             GameOverMenuButton.interactable = true;
             GameOverQuitButton.interactable = true;
@@ -179,7 +184,7 @@ public class GameStateManager : MonoBehaviour
     // PREVENT NULL REFERENCE EXCEPTIONS IF A UI PANEL IS UNASSIGNED
     private void _safeToSetActive(GameObject uiElement, bool state)
     {
-        if (uiElement != null)
+        if (uiElement)
         {
             uiElement.SetActive(state);
         }
@@ -187,31 +192,31 @@ public class GameStateManager : MonoBehaviour
     public void RestartGame()
     {
         // RESET WIN
-        if (gameModeManager == null)
+        if (!gameModeManager)
         {
             gameModeManager = FindAnyObjectByType<GameModeManager>();
         }
-        if (gameModeManager != null)
+        if (gameModeManager)
         {
             gameModeManager.ResetGameMode();
         }
 
         // WIPE SCORES
-        if (scoreManager == null)
+        if (!scoreManager)
         {
             scoreManager = FindAnyObjectByType<PlayerScoreManager>();
         }
-        if (scoreManager != null)
+        if (scoreManager)
         {
             scoreManager.ResetAllScores();
         }
 
         // RESET MAP
-        if (sceneLoader == null)
+        if (!sceneLoader)
         {
             sceneLoader = FindAnyObjectByType<SceneLoader>();
         }
-        if (sceneLoader != null)
+        if (sceneLoader)
         {
             sceneLoader.UnloadAndReloadScene();
         }
@@ -219,7 +224,7 @@ public class GameStateManager : MonoBehaviour
 
     // PUBLIC FUNCTIONS
 
-    public void changeState(GameState newState)
+    private void changeState(GameState newState)
     {
         // PREVENT REDUNDANT CALLS IF ALREADY IN STATE OR TRANSITIONING TO IT
         if (currentState == newState || (_currentTransition != null && _targetState == newState))

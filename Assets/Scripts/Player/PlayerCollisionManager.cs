@@ -37,7 +37,6 @@ public class PlayerCollisionManager : MonoBehaviour
 
         if (!interactionManager) Debug.LogError($"[PlayerCollisionManager ({name})] No InteractionManager found");
         if (!dropSpawner) Debug.LogError($"[PlayerCollisionManager ({name})] No IInteractableSpawner found");
-        
     }
 
     private void Start()
