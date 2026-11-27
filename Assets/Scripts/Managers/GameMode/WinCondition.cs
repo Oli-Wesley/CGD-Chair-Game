@@ -6,10 +6,10 @@ public abstract class WinCondition : ScriptableObject
 {
     [TextArea]
     public string description;
-    public abstract void initialize();
+    public abstract void Initialize();
 
     // RETURNS TRUE WHEN CONDITION IS MET
-    public abstract bool isConditionMet();
+    public abstract bool IsConditionMet();
 
     // MESSAGE TO DISPLAY - MAYBE FOR FUTURE? CONSIDER?
     //public abstract string GetVictoryMessage();

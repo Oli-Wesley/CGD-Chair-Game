@@ -52,7 +52,7 @@ public class GameModeManager : MonoBehaviour
         // LOOP THE CONDITIONASSETS ARRAY
         foreach (var instance in from winCondition in winConditionsList where winCondition select Instantiate(winCondition))
         {
-            instance.initialize();
+            instance.Initialize();
 
             // ADD TO THE ACTIVE CONDITIONS ARRAY
             _activeConditions.Add(instance);
@@ -86,7 +86,7 @@ public class GameModeManager : MonoBehaviour
             }
         }
 
-        var allConditionsMet = _activeConditions.All(condition => condition.isConditionMet());
+        var allConditionsMet = _activeConditions.All(condition => condition.IsConditionMet());
 
         // LOOP THROUGH EACH CONDITION
 

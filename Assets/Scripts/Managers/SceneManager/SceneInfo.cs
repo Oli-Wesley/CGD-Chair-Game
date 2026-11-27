@@ -16,14 +16,14 @@ public class SceneInfo : MonoBehaviour
     private void Start()
     {
         respawns = GameObject.FindGameObjectsWithTag("SpawnPoint");
-        FindFirstObjectByType<PlayerSpawner>().spawnAllPlayers();
+        FindFirstObjectByType<PlayerSpawner>().SpawnAllPlayers();
     }
 
     private void OnDestroy()
     {
         var spawner = FindFirstObjectByType<PlayerSpawner>();
         if (spawner)
-           spawner.deSpawnAllPlayers();
+           spawner.DeSpawnAllPlayers();
     }
 
     public Transform getNearestSpawnPoint(Transform targetPosition)
