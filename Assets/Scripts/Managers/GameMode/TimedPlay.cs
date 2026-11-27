@@ -14,12 +14,12 @@ public class TimedPlay : WinCondition
     public float timeLimitSeconds = 60f;
     private float _timeRemaining;
 
-    public override void initialize()
+    public override void Initialize()
     {
         _timeRemaining = timeLimitSeconds;
     }
 
-    public override bool isConditionMet()
+    public override bool IsConditionMet()
     {
         _timeRemaining -= Time.deltaTime;
         // RETURNS TRUE WHEN TIME RUNS OUT

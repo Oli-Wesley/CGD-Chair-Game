@@ -75,7 +75,7 @@ namespace Player
             }  
             
             _mplayerCount++;
-            playerManager.setPlayerActive(false);
+            playerManager.SetPlayerActive(false);
             print("Player joined" + _mplayerCount);
             
             //TODO: manage this on the button itself (or some UI manager), once again alpha jank. 
@@ -86,7 +86,7 @@ namespace Player
             return;
         }
 
-        public void spawnAllPlayers()
+        public void SpawnAllPlayers()
         {
             // TODO: move to the central manger at some point, aswell as managing it. here for now as this is handy. 
             if (!_crownController)
@@ -106,10 +106,10 @@ namespace Player
             }
         }
 
-        public void deSpawnAllPlayers()
+        public void DeSpawnAllPlayers()
         {
             foreach (var player in _players)
-                player.setPlayerActive(false); 
+                player.SetPlayerActive(false); 
         }
 
         // Return players in join order.
@@ -120,9 +120,9 @@ namespace Player
 
 
         // Return All players in order with the highest score first (ties are not handled here)
-        public List<PlayerManager> getAllPlayersInScoreOrder() 
+        public List<PlayerManager> GetAllPlayersInScoreOrder() 
         {
-            return _players.OrderByDescending(p => p.getPlayerScore()).ToList();
+            return _players.OrderByDescending(p => p.GetPlayerScore()).ToList();
         }
     }
 }

@@ -147,12 +147,10 @@ public class PlayerController : MonoBehaviour
         if (_respawnAction.IsPressed() && _respawnHoldTime!= -1)
         {
             _respawnHoldTime += Time.deltaTime;
-            if (_respawnHoldTime >= respawnHoldTime)
-            {
-                _playerManager.RespawnPlayer();
-                _respawnHoldTime = -1;
-            }
-                
+            if (!(_respawnHoldTime >= respawnHoldTime)) return;
+            _playerManager.RespawnPlayer();
+            _respawnHoldTime = -1;
+
         }
         else if (_respawnAction.WasReleasedThisFrame())
         {

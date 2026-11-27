@@ -17,14 +17,14 @@ public class PlayerManager : MonoBehaviour
     public void SpawnPlayer()
     {
         scene_info = GameObject.Find("@ SCENE INFO").GetComponent<SceneInfo>();
-        setPlayerActive(true);
+        SetPlayerActive(true);
         // spawn at the designated player start spawn points
         var target =  scene_info.getSpawnLocation(m_playerCount);
         Teleport(target.position, target.rotation);
         gameObject.GetComponent<InteractionManager>().resetInventory();
         gameObject.GetComponent<PlayerController>().reset();
         
-        print("Spawned player ( " + m_playerCount + ")");
+        print("Spawned player (" + m_playerCount + ")");
 
     }
     public void RespawnPlayer()
@@ -67,7 +67,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
     
-    public void setPlayerActive(bool active)
+    public void SetPlayerActive(bool active)
     {
         foreach (var r in GetComponentsInChildren<Renderer>(true)) r.enabled = active;
         foreach (var c in GetComponentsInChildren<Collider>(true)) c.enabled = active;
@@ -95,11 +95,11 @@ public class PlayerManager : MonoBehaviour
         if (TryGetComponent(out InteractionManager im)) im.enabled = active;
     }
 
-    public int getPlayerScore()
+    public int GetPlayerScore()
     {
         //TODO: this will need changing when we refactor the interaction manager stuff. this is just a nice location to get all the information from the player for UI and the such.
-        if (!m_interactionManager)
-            m_interactionManager = gameObject.GetComponent<InteractionManager>();
+        //keep the function, but just replace how it finds the score.
+        if (!m_interactionManager) m_interactionManager = gameObject.GetComponent<InteractionManager>();
         return m_interactionManager.GetTotalRubbishDroppedOff();
     }
 }

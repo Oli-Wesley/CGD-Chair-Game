@@ -35,21 +35,21 @@ public class CrownController : MonoBehaviour
     {
         if (!m_playerSpawner)
             m_playerSpawner  = FindFirstObjectByType<PlayerSpawner>(); 
-        var players = m_playerSpawner.getAllPlayersInScoreOrder();
+        var players = m_playerSpawner.GetAllPlayersInScoreOrder();
         switch (state)
         {
             case State.Idle:
             {
                 _meshRenderer.enabled = false; 
-                if (players[0].getPlayerScore() != players[1].getPlayerScore())
-                    setTargetPlayer(players[0].transform.Find("Player Model").gameObject);
+                if (players[0].GetPlayerScore() != players[1].GetPlayerScore())
+                    SetTargetPlayer(players[0].transform.Find("Player Model").gameObject);
                 break;
             }
             case State.Tracking:
                 _meshRenderer.enabled = true; 
                 transform.position = target.transform.position + target.transform.up * vertical_offset;
                 transform.rotation = target.transform.rotation;
-                if (players[0].getPlayerScore() == players[1].getPlayerScore())
+                if (players[0].GetPlayerScore() == players[1].GetPlayerScore())
                 {
                     state = State.Idle;
                     _particles.Play();
@@ -62,7 +62,7 @@ public class CrownController : MonoBehaviour
         }
     }
     
-    public void setTargetPlayer(GameObject targetPlayer)
+    public void SetTargetPlayer(GameObject targetPlayer)
     {
         state = State.Tracking;
         target = targetPlayer;
