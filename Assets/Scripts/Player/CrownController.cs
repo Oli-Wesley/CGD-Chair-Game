@@ -14,8 +14,8 @@ public class CrownController : MonoBehaviour
     private PlayerSpawner m_playerSpawner;
     
     
-    [SerializeField] private float vertical_offset = 2.1f;
-    [SerializeField] private State state = State.Tracking;
+    [SerializeField] private float vertical_offset = 2.1f; 
+    private State state = State.Idle;
     private enum  State
     {
         Disabled,
@@ -33,6 +33,8 @@ public class CrownController : MonoBehaviour
 
     private void Update()
     {
+        if (!m_playerSpawner)
+            m_playerSpawner  = FindFirstObjectByType<PlayerSpawner>(); 
         var players = m_playerSpawner.getAllPlayersInScoreOrder();
         switch (state)
         {
