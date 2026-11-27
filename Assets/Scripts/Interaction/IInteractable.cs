@@ -15,18 +15,18 @@ namespace Interaction
 
         private static readonly int ColorId = Shader.PropertyToID("_Color");
         private MaterialPropertyBlock mpb;
-        private Renderer renderer; 
+        private Renderer _renderer; 
 
         public void UpdateRubbishColour()
         {
-            renderer ??= GetComponent<Renderer>();
+            _renderer ??= GetComponent<Renderer>();
             mpb ??= new MaterialPropertyBlock();
             
             var colour = RubbishHelper.GetColourForRubbishType(rubbishType);
             
-            renderer.GetPropertyBlock(mpb);
+            _renderer.GetPropertyBlock(mpb);
             mpb.SetColor(ColorId, colour);
-            renderer.SetPropertyBlock(mpb);
+            _renderer.SetPropertyBlock(mpb);
         }
     } 
 }
